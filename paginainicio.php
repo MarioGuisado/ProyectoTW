@@ -41,7 +41,7 @@
 				<ol>Ranking de opiniones
 					<li>User1</li>
 					<li>User2</li>
-					<li>Ueser3</li>
+					<li>3</li>
 				</ol>
 				<p>Incidencias pendientes: x</p>
 				<p>Incidencias resueltas: x</p>
@@ -51,7 +51,7 @@
 	<footer>
 		<div>
 			<ul>
-				<li>© 2023 Lucía Ansino Ariza y Mario Guisado</li>
+				<li>© 2023 Lucía Ansino Ariza y Mario Guisado García</li>
 				<li><a href="">Protección de datos</a></li>
 				<li><a href="">Fuentes Web</a></li>
 				<li><a href="">Aviso legal</a></li>
