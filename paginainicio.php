@@ -12,7 +12,7 @@
 		<img src="icono.png" alt="Imagen incidencia">
 		<h2> Informa de cualquier incidencia sobre el servicio público para ayudar a mejorarlo</h2>
 	</header>
-	<nav>
+	<nav class="navegador">
 		<ul>
 			<li><a href="">Ver incidencias</a></li>
 			<li><a href="">Nueva incidencia</a></li>

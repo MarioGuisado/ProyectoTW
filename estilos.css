@@ -1,6 +1,10 @@
 body{
-	background-color: LemonChiffon;
+	background-color: NavajoWhite;
 }
 .navegador{
-	
+	border-color: #darkred;
+}
+
+header{
+	background-color: #cf6441;
 }
