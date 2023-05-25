@@ -44,7 +44,9 @@ header{
 	border-width: 1px;
 	border-color: brown;
 }
-
+section{
+	width: 70%;
+}
 aside{
 	background-color: rgb(222,184,135);
 	display: flex;
@@ -53,6 +55,7 @@ aside{
 	width:25%;
 	padding: 10px;
 	margin: 5px;
+	height: auto;
 }
 
 footer{
@@ -60,14 +63,18 @@ footer{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: fixed;
-	bottom: 0;
 	width: 100%;
 }
 footer ul{
 	display: flex;
+	width: 95%;
 
 }
 footer li{
+	margin: 2px;
 	list-style-type: none;
+}
+footer a{
+	display: flex;
+	text-align: center;
 }
