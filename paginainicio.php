@@ -41,7 +41,7 @@
 				<ol>Ranking de opiniones
 					<li>User1</li>
 					<li>User2</li>
-					<li>3</li>
+					<li>User3</li>
 				</ol>
 				<p>Incidencias pendientes: x</p>
 				<p>Incidencias resueltas: x</p>
