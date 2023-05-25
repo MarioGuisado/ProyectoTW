@@ -7,12 +7,13 @@
 </head>
 <body>
 	<header>
-		<img src="icono_incidencia.jpg" alt="Altavoz de queja">
-		<h1>Por un municipio mejor</h1>
-		<img src="icono.png" alt="Imagen incidencia">
+		<div class="titulo">
+			<img src="icono_incidencia.png" alt="Altavoz de queja">
+			<h1>Por un municipio mejor</h1>
+		<div>
 		<h2> Informa de cualquier incidencia sobre el servicio público para ayudar a mejorarlo</h2>
 	</header>
-	<nav class="navegador">
+	<nav>
 		<ul>
 			<li><a href="">Ver incidencias</a></li>
 			<li><a href="">Nueva incidencia</a></li>
@@ -26,14 +27,14 @@
 		<section>
 		</section>
 		<aside>
-			<div>
+			<div class="logeo">
 				<form action="" method="POST">
 					<label>Email: <input type="email" name="email" placeholder="Introduzca su email"></label>
 					<label>Clave: <input type="password" name="clave" placeholder="Introduzca su clave" ></label>
 					<input type="submit" value="Login"/>
 				</form>
 			</div>
-			<div>
+			<div class = "otros">
 				<ol>Ranking de incidencias
 					<li>User1</li>
 					<li>User2</li>

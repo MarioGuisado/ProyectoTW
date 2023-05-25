@@ -1,10 +1,73 @@
 body{
 	background-color: NavajoWhite;
 }
-.navegador{
-	border-color: #darkred;
+nav{
+	background-color: rgb(222,184,135);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+nav ul{
+	display: flex;
+	justify-content: space-between;
+	width: 95%;
+	padding: 0px;
+	margin: 10px;
+
+}
+nav li{
+	list-style-type: none;
+	width: auto;
+}
+nav li a{
+	display: flex;
+	text-align: center;
+	width: auto;
+	text-decoration: none;
 }
 
 header{
-	background-color: #cf6441;
+	background-color: brown;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+}
+.logeo{
+	border-width: 1px;
+	border-color: brown;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.otros{
+	border-width: 1px;
+	border-color: brown;
+}
+
+aside{
+	background-color: rgb(222,184,135);
+	display: flex;
+	float: right;
+	flex-direction: column;
+	width:25%;
+	padding: 10px;
+	margin: 5px;
+}
+
+footer{
+	background-color: brown;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+footer ul{
+	display: flex;
+
+}
+footer li{
+	list-style-type: none;
 }
