@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="./estilos.css">
-	<meta charset="UTF-8">
-	<title>Página Principal</title>
-</head>
-<body>
+<?php
+function HTMLinicio(){
+	echo <<< HTML
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="./estilos.css">
+		<meta charset="UTF-8">
+		<title>Página Principal</title>
+	</head>
+	<body>
+	HTML;
+}
+
+function HTMLfin(){
+	echo <<< HTML
+		</body>
+		</html>
+	HTML;
+}
+
+function HTMLtitulo(){
+	echo <<< HTML
 	<header>
 		<div class="titulo">
 			<img src="icono_incidencia.png" alt="Altavoz de queja">
@@ -13,6 +28,11 @@
 		<div>
 		<h2> Informa de cualquier incidencia sobre el servicio público para ayudar a mejorarlo</h2>
 	</header>
+	HTML;
+}
+
+function HTMLnav(){
+	echo <<< HTML
 	<nav>
 		<ul>
 			<li><a href="">Ver incidencias</a></li>
@@ -23,10 +43,33 @@
 			<li><a href="">Gestion de BBDD</a></li>
 		</ul>
 	</nav>
-	<div>
-		<section>
-		</section>
-		<aside>
+	HTML;
+}
+
+function HTMLfooter(){
+	echo <<< HTML
+	<footer>
+		<div>
+			<ul>
+				<li>© 2023 Lucía Ansino Ariza y Mario Guisado García</li>
+				<li><a href="">Protección de datos</a></li>
+				<li><a href="">Fuentes Web</a></li>
+				<li><a href="">Aviso legal</a></li>
+				<li><a href="">Políticas de cookies</a></li>
+			</ul>
+		</div>
+		<div>
+			<a href=""><img src="./Twitter.png"></a>
+			<a href=""><img src="./facebook.png"></a>
+			<a href=""><img src="./YouTube.png"></a>
+		</div>
+	</footer>
+	HTML;
+}
+
+function HTMLlateral(){
+	echo <<< HTML
+	<aside>
 			<div class="logeo">
 				<form action="" method="POST">
 					<label>Email: <input type="email" name="email" placeholder="Introduzca su email"></label>
@@ -49,22 +92,6 @@
 				<p>Incidencias resueltas: x</p>
 			</div>
 		</aside>
-	</div>
-	<footer>
-		<div>
-			<ul>
-				<li>© 2023 Lucía Ansino Ariza y Mario Guisado García</li>
-				<li><a href="">Protección de datos</a></li>
-				<li><a href="">Fuentes Web</a></li>
-				<li><a href="">Aviso legal</a></li>
-				<li><a href="">Políticas de cookies</a></li>
-			</ul>
-		</div>
-		<div>
-			<a href=""><img src="./Twitter.png"></a>
-			<a href=""><img src="./facebook.png"></a>
-			<a href=""><img src="./YouTube.png"></a>
-		</div>
-	</footer>
-</body>
-</html>
+	HTML;
+}
+?>
