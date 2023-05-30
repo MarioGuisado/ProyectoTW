@@ -1,17 +1,34 @@
 <?php
 	require "./Paginabase.php";
+
 	HTMLinicio();
 	HTMLtitulo();
 	HTMLnav();
-?>
-	<div>
-		<section>
-		</section>
-		<?php
+	echo "<div>
+		<section>";
+	if(isset($_GET['p']) && $_GET['p']=="inicio"){
+		//HTMLVER();
+		echo "<p>Ver incidencia</p>";
+	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
+		//HTMLNUEVA();
+		echo "<p>Nueva incidencia</p>";
+	} elseif (isset($_GET['p']) && $_GET['p']=="otras") {
+		//HTMLOTRA();
+		echo "<p>Mas incidencia</p>";
+	} elseif (isset($_GET['p']) && $_GET['p']=="usuarios") {
+		//HTMLUSER();
+		echo "<p>Gestion usuarios</p>";
+	} elseif (isset($_GET['p']) && $_GET['p']=="log") {
+		//HTMLLOG();
+		echo "<p>Ver log</p>";
+	} elseif (isset($_GET['p']) && $_GET['p']=="BBDD") {
+		//HTMLBBDD();
+		echo "<p>Gestion BBDD</p>";
+	}else
+		echo "<p>Ver incidencia</p>";
+	echo "</section>";
 			HTMLlateral();
-		?>
-	</div>
-<?php
+	echo "</div>";
 	HTMLfooter();
 	HTMLfin();
 ?>

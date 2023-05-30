@@ -35,12 +35,12 @@ function HTMLnav(){
 	echo <<< HTML
 	<nav>
 		<ul>
-			<li><a href="">Ver incidencias</a></li>
-			<li><a href="">Nueva incidencia</a></li>
-			<li><a href="">Más incidencias</a></li>
-			<li><a href="">Gestón de usuarios</a></li>
-			<li><a href="">Ver log</a></li>
-			<li><a href="">Gestion de BBDD</a></li>
+			<li><a href="./index.php?p=inicio">Ver incidencias</a></li>
+			<li><a href="./index.php?p=incidencia">Nueva incidencia</a></li>
+			<li><a href="./index.php?p=otras">Más incidencias</a></li>
+			<li><a href="./index.php?p=usuarios">Gestón de usuarios</a></li>
+			<li><a href="./index.php?p=log">Ver log</a></li>
+			<li><a href="./index.php?p=BBDD">Gestion de BBDD</a></li>
 		</ul>
 	</nav>
 	HTML;
