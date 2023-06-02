@@ -31,16 +31,26 @@ function HTMLtitulo(){
 	HTML;
 }
 
-function HTMLnav(){
+function HTMLnav($x){
 	echo <<< HTML
 	<nav>
 		<ul>
 			<li><a href="./index.php?p=inicio">Ver incidencias</a></li>
+	HTML;
+	if(isset($x)){
+		echo <<< HTML
 			<li><a href="./index.php?p=incidencia">Nueva incidencia</a></li>
 			<li><a href="./index.php?p=otras">Más incidencias</a></li>
-			<li><a href="./index.php?p=usuarios">Gestión de usuarios</a></li>
-			<li><a href="./index.php?p=log">Ver log</a></li>
-			<li><a href="./index.php?p=BBDD">Gestion de BBDD</a></li>
+		HTML;
+		if($x == "administrador"){
+			echo <<< HTML
+				<li><a href="./index.php?p=usuarios">Gestión de usuarios</a></li>
+				<li><a href="./index.php?p=log">Ver log</a></li>
+				<li><a href="./index.php?p=BBDD">Gestion de BBDD</a></li>
+			HTML;
+		}
+	}
+	echo <<< HTML
 		</ul>
 	</nav>
 	HTML;
@@ -78,12 +88,31 @@ function logeo(){
 	</div>
 	HTML;
 }
+function infoUsuario(){
+	echo <<< HTML
+	<div class="logeo">
+		<p id="nombre"> Nombre usuario</p>
+		<p id="tipo_user"> Tipo usuario</p>
+		<img src=""alt="Foto de usuario">
+		<div>
+			<form action="./index.php" method="POST">
+			<input type="submit" name="editar" value="Editar">
+			<input type="submit" name="logout" value="Logout">
+			</form>
+		</div>
+	</div>
+	HTML;
+}
 
-function HTMLlateral(){
+function HTMLlateral($x){
 	echo <<< HTML
 	<aside>
 	HTML;
-	logeo();
+	if(isset($x)){
+		infoUsuario();
+	}else{
+		logeo();
+	}
 	echo <<< HTML
 			<div class = "otros">
 				<ol>Ranking de incidencias
