@@ -1,5 +1,6 @@
 <?php
 	require "./Paginabase.php";
+	require "./Formularios.php";
 
 	HTMLinicio();
 	HTMLtitulo();
@@ -10,8 +11,7 @@
 		//HTMLVER();
 		echo "<p>Ver incidencia</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
-		//HTMLNUEVA();
-		echo "<p>Nueva incidencia</p>";
+		HTMLNUEVA();
 	} elseif (isset($_GET['p']) && $_GET['p']=="otras") {
 		//HTMLOTRA();
 		echo "<p>Mas incidencia</p>";

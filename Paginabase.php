@@ -1,7 +1,7 @@
 <?php
 function HTMLinicio(){
 	echo <<< HTML
-	<!DOCTYPE html>
+	<!DOCTYPE html5>
 	<html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="./estilos.css">
@@ -38,7 +38,7 @@ function HTMLnav(){
 			<li><a href="./index.php?p=inicio">Ver incidencias</a></li>
 			<li><a href="./index.php?p=incidencia">Nueva incidencia</a></li>
 			<li><a href="./index.php?p=otras">Más incidencias</a></li>
-			<li><a href="./index.php?p=usuarios">Gestón de usuarios</a></li>
+			<li><a href="./index.php?p=usuarios">Gestión de usuarios</a></li>
 			<li><a href="./index.php?p=log">Ver log</a></li>
 			<li><a href="./index.php?p=BBDD">Gestion de BBDD</a></li>
 		</ul>
@@ -67,16 +67,24 @@ function HTMLfooter(){
 	HTML;
 }
 
+function logeo(){
+	echo <<< HTML
+	<div class="logeo">
+		<form action="./index.php" method="POST">
+			<label>Email: <input type="email" name="email" placeholder="Introduzca su email"></label>
+			<label>Clave: <input type="password" name="clave" placeholder="Introduzca su clave" ></label>
+			<input type="submit" value="Login"/>
+		</form>
+	</div>
+	HTML;
+}
+
 function HTMLlateral(){
 	echo <<< HTML
 	<aside>
-			<div class="logeo">
-				<form action="" method="POST">
-					<label>Email: <input type="email" name="email" placeholder="Introduzca su email"></label>
-					<label>Clave: <input type="password" name="clave" placeholder="Introduzca su clave" ></label>
-					<input type="submit" value="Login"/>
-				</form>
-			</div>
+	HTML;
+	logeo();
+	echo <<< HTML
 			<div class = "otros">
 				<ol>Ranking de incidencias
 					<li>User1</li>
