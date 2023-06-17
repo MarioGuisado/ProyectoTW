@@ -88,31 +88,20 @@ function logeo(){
 	</div>
 	HTML;
 }
-function infoUsuario(){
-	echo <<< HTML
-	<div class="logeo">
-		<p id="nombre"> Nombre usuario</p>
-		<p id="tipo_user"> Tipo usuario</p>
-		<img src=""alt="Foto de usuario">
-		<div>
-			<form action="./index.php" method="POST">
-			<input type="submit" name="editar" value="Editar">
-			<input type="submit" name="logout" value="Logout">
-			</form>
-		</div>
-	</div>
-	HTML;
+function infoUsuario($email,$clave){
+	
+	if(isset($email) && isset($clave)){
+		echo "mete info";
+		logUser($email,$clave);
+	}
 }
 
-function HTMLlateral($x){
+function HTMLlateral($x,$email,$clave){
 	echo <<< HTML
 	<aside>
 	HTML;
-	if(isset($x)){
-		infoUsuario();
-	}else{
-		logeo();
-	}
+	logeo();
+	infoUsuario($email,$clave);
 	echo <<< HTML
 			<div class = "otros">
 				<ol>Ranking de incidencias

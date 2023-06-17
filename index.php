@@ -3,14 +3,10 @@
 
 	require "./Paginabase.php";
 	require "./Formularios.php";
+	require "./BBDD.php";
 
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
-	if(isset($email) && isset($clave)){
-		//Comprobar si el usuario se encuentra en la BBDD
-		//Si el usuario esta guardar en una variable de sesion que tipo es
-		$_SESSION["tipo"] = "admin";
-	}
 
 	//Acabar con la sesión
 	if(isset($_POST['logout'])){
@@ -28,7 +24,7 @@
 
 	HTMLinicio();
 	HTMLtitulo();
-	$tipo = isset($_SESSION['tipo'])? $_SESSION['tipo']:"administrador";
+	$tipo = isset($_SESSION['tipo'])? $_SESSION['tipo']:"colaborador";
 	HTMLnav($tipo);
 
 	echo "<div>
@@ -56,7 +52,7 @@
 	}else
 		echo "<p>Ver incidencia</p>";
 	echo "</section>";
-			HTMLlateral($tipo);
+			HTMLlateral($tipo,$email,$clave);
 	echo "</div>";
 	HTMLfooter();
 	HTMLfin();
