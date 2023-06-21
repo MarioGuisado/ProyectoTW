@@ -25,16 +25,48 @@ function desconexion(&$db){
 
 function logUser($c, $pwd){
 	$db = conexion();
-	echo $c;
-	echo $pwd;
+
 	$consulta = "SELECT nombre,apellidos,admin,foto FROM USUARIOS WHERE email='$c' AND passwd='$pwd'";
 	$res = $db->query($consulta);
 	if($res){
 		if(mysqli_num_rows($res)>0){
 			while($tupla = $res->fetch_assoc()){
+				$_SESSION['nombre'] = $tupla['nombre'];
+				$_SESSION['apellidos'] = $tupla['apellidos'];
 				echo $tupla['nombre'];
 				echo $tupla['apellidos'];
 			}
+		}else{
+			mysqli_free_result($res);
+			#logeo();
+		}
+	}else {
+	echo "<p>Error en la consulta</p>";
+	echo "<p>Código: ".mysqli_errno()."</p>";
+	echo "<p>Mensaje: ".mysqli_error()."</p>";
+	}
+	desconexion($db);
+}
+
+function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
+	$db = conexion();
+	$estado = "pendiente";
+
+	date_default_timezone_set('Europe/Madrid');
+	$fechaActual = date('Y-m-d H:i:s');
+	$nombre = $_SESSION['nombre'];
+	$apellidos = $_SESSION['apellidos'];
+	$consulta = "INSERT INTO INCIDENCIAS (ID,CLAVES,LUGAR,FECHA,NOMBRE,TITULO,DESCRIPCION,ESTADO,APELLIDOS) VALUES (NULL,'$claves','$lugar','$fechaActual','$nombre','$titulo','$descripcion','$estado','$apellidos')";
+	
+	$res = $db->query($consulta);
+	
+	if($res){
+		//echo $claves.  $lugar. $titulo. $descripcion;
+		if(mysqli_num_rows($res)>0){
+			/*while($tupla = $res->fetch_assoc()){
+				echo $tupla['nombre'];
+				echo $tupla['apellidos'];
+			}*/
 		}else{
 			mysqli_free_result($res);
 			#logeo();

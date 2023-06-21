@@ -22,7 +22,7 @@
 				</p>
 				<p>
 					<label>Palabras clave:
-						<input type="text" name="clave" placeholder="" required/>
+						<input type="text" name="claves" placeholder="" required/>
 					</label>
 				</p>
 				<p>

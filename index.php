@@ -8,6 +8,14 @@
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
 
+	$claves=isset($_POST['claves'])? $_POST['claves']: null;
+	$lugar=isset($_POST['lugar'])? $_POST['lugar']: null;
+	$titulo=isset($_POST['titulo'])? $_POST['titulo']: null;
+	$descripcion=isset($_POST['descripcion'])? $_POST['descripcion']: null;
+	if(isset($_POST['titulo']))
+		nuevaIncidencia($claves, $lugar, $titulo, $descripcion);
+
+
 	//Acabar con la sesión
 	if(isset($_POST['logout'])){
 		if(session_status() == PHP_SESSION_NONE)
@@ -24,7 +32,9 @@
 
 	HTMLinicio();
 	HTMLtitulo();
-	$tipo = isset($_SESSION['tipo'])? $_SESSION['tipo']:"colaborador";
+	$tipo = isset($_SESSION['tipo'])? $_SESSION['tipo']:"administrador";
+	$nombre = isset($_SESSION['nombre'])? $_SESSION['nombre']:"";
+	$apellidos = isset($_SESSION['apellidos'])? $_SESSION['apellidos']:"";
 	HTMLnav($tipo);
 
 	echo "<div>
