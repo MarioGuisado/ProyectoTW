@@ -8,10 +8,12 @@
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
 
+	//Comprobamos si se han enviado las variables correspondientes a las incidencias nuevas:
 	$claves=isset($_POST['claves'])? $_POST['claves']: null;
 	$lugar=isset($_POST['lugar'])? $_POST['lugar']: null;
 	$titulo=isset($_POST['titulo'])? $_POST['titulo']: null;
 	$descripcion=isset($_POST['descripcion'])? $_POST['descripcion']: null;
+	//En caso de que se haya enviado, llamamos a la funcion que añade la nueva función:
 	if(isset($_POST['titulo']))
 		nuevaIncidencia($claves, $lugar, $titulo, $descripcion);
 

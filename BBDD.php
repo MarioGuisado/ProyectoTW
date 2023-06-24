@@ -25,25 +25,39 @@ function desconexion(&$db){
 
 function logUser($c, $pwd){
 	$db = conexion();
+	$passwd_recuperada = "";
 
-	$consulta = "SELECT nombre,apellidos,admin,foto FROM USUARIOS WHERE email='$c' AND passwd='$pwd'";
+	$consulta = "SELECT passwd FROM USUARIOS WHERE email='$c'";
 	$res = $db->query($consulta);
 	if($res){
 		if(mysqli_num_rows($res)>0){
 			while($tupla = $res->fetch_assoc()){
-				$_SESSION['nombre'] = $tupla['nombre'];
-				$_SESSION['apellidos'] = $tupla['apellidos'];
-				echo $tupla['nombre'];
-				echo $tupla['apellidos'];
+				$passwd_recuperada = $tupla['passwd'];
 			}
 		}else{
 			mysqli_free_result($res);
-			#logeo();
 		}
-	}else {
-	echo "<p>Error en la consulta</p>";
-	echo "<p>Código: ".mysqli_errno()."</p>";
-	echo "<p>Mensaje: ".mysqli_error()."</p>";
+	}
+
+	if (password_verify($pwd, $passwd_recuperada)) {
+		$consulta = "SELECT nombre,apellidos,admin,foto FROM USUARIOS WHERE email='$c'";
+		$res = $db->query($consulta);
+		if($res){
+			if(mysqli_num_rows($res)>0){
+				while($tupla = $res->fetch_assoc()){
+					$_SESSION['nombre'] = $tupla['nombre'];
+					$_SESSION['apellidos'] = $tupla['apellidos'];
+					$_SESSION['foto'] = $tupla['foto'];
+				}
+			}else{
+				mysqli_free_result($res);
+				#logeo();
+			}
+		}else {
+		echo "<p>Error en la consulta</p>";
+		echo "<p>Código: ".mysqli_errno()."</p>";
+		echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
 	}
 	desconexion($db);
 }

@@ -78,20 +78,47 @@ function HTMLfooter(){
 }
 
 function logeo(){
-	echo <<< HTML
-	<div class="logeo">
-		<form action="./index.php" method="POST">
-			<label>Email: <input type="email" name="email" placeholder="Introduzca su email"></label>
-			<label>Clave: <input type="password" name="clave" placeholder="Introduzca su clave" ></label>
-			<input type="submit" value="Login"/>
-		</form>
-	</div>
-	HTML;
+	//Si hay algun nombre registrado en la variable de sesion, es decir, si hay alguien logueado:
+	if(isset($_SESSION['nombre']) && $_SESSION['nombre'] != ""){
+		$nombre = $_SESSION['nombre'];
+		$apellidos = $_SESSION['apellidos'];
+		$foto = $_SESSION['foto'];
+
+		$tipoContenido = "image/png";
+		$imagenBase64 = base64_encode($foto);
+		$src = "data:$tipoContenido;base64,$imagenBase64";
+			
+		echo <<<HTML
+    <p>$nombre $apellidos</p>
+    <img src="$src" alt="Imagen">
+    <form action="./index.php" method="POST">
+     	<p></p>
+        <button type="submit" name="logout">Logout</button>
+    </form>
+HTML;
+		//Si se clica logout se vacian las variables de sesion del usuario:
+    	if(isset($_POST['logout'])){
+    		$_SESSION['nombre'] = "";
+    		$_SESSION['apellidos'] = "";
+    		$_SESSION['foto'] = "";
+    	}
+	}
+	else{
+		echo <<< HTML
+		<div class="logeo">
+			<form action="./index.php" method="POST">
+				<label>Email: <input type="email" name="email" placeholder="Introduzca su email"></label>
+				<label>Clave: <input type="password" name="clave" placeholder="Introduzca su clave" ></label>
+				<input type="submit" value="Login"/>
+			</form>
+		</div>
+		HTML;
+	}
 }
+
 function infoUsuario($email,$clave){
 	
 	if(isset($email) && isset($clave)){
-		echo "mete info";
 		logUser($email,$clave);
 	}
 }
