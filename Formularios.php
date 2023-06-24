@@ -38,52 +38,68 @@
 		HTML;
 	}
 	function EditarUsuario(){
+		$foto = $_SESSION['foto'];
+		$tipoContenido = "image/png";
+		$imagenBase64 = base64_encode($foto);
+		$src = "data:$tipoContenido;base64,$imagenBase64";
+
 		echo <<< HTML
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-		<h2>Edición de usuario</h2>
+			<h2>Edición de usuario</h2>
 			<div>
 				<p>
-					<label>Fotografía: <input type="file" name="img" required/></label>
+					<label>Fotografía:  <img src="$src" alt="Imagen"><input type="file" name="nuevaImg"/></label>
 				</p>
 				<p>
 					<label>Nombre:
-						<input type="text" name="nombre" required />
+						<input type="text" name="nuevoNombre" />
 					</label>
 				</p>
 				<p>
 					<label>Apellidos:</label>
-						<input type="text" name="apellidos" required />
+						<input type="text" name="nuevoApellido" />
 					</label>
 				</p>
 				<p>
 					<label>Email:
-						<input type="text" name="correo" required />
+						<input type="text" name="nuevoCorreo" />
+					</label>
+				</p>
+				<p>
+					<label>Clave:
+						<input type="text" name="claveAnterior"  />
+						<input type="text" name="nuevaClave"  />
 					</label>
 				</p>
 				<p>
 					<label>Dirección:
-						<input type="text" name="residencia" required/>
+						<input type="text" name="nuevaResidencia"/>
 					</label>
 				</p>
 				<p>
 					<label>Teléfono:
-						<input type="text" name="tlf" required/>
+						<input type="text" name="nuevoTlf"/>
 					</label>
 				</p>
 				<p>
 					<label>Rol:
-						<input type="text" name="rol" required/>
+					<select name="rol" disabled>
+					      <option value="Colaborador">Colaborador</option>
+					      <option value="Admin">Administrador</option>
+					</select>
 					</label>
+
 				</p>
 				<p>
 					<label>Estado:
-						<input type="text" name="estdo" required/>
+					<select name="estado" disabled>
+					      <option value="Activo">Activo</option>
+					      <option value="Inactivo">Inactivo</option>
+					</select>
 					</label>
-				</p>
-				
-
+				</p>	
 			<input type="hidden" id="9.11">
-			<input type="submit" value="Confirmar modificación"/>
+			<input type="submit" name="confirmarModificacion" value="Confirmar modificación"/>
 			</div>
 		</form>
 		HTML;

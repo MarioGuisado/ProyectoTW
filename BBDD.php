@@ -48,6 +48,7 @@ function logUser($c, $pwd){
 					$_SESSION['nombre'] = $tupla['nombre'];
 					$_SESSION['apellidos'] = $tupla['apellidos'];
 					$_SESSION['foto'] = $tupla['foto'];
+					$_SESSION['email'] = $c;
 				}
 			}else{
 				mysqli_free_result($res);
@@ -90,6 +91,74 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 	echo "<p>Código: ".mysqli_errno()."</p>";
 	echo "<p>Mensaje: ".mysqli_error()."</p>";
 	}
+	desconexion($db);
+}
+
+function ModificarUsuario(){
+	$db = conexion();
+	$correo = $_SESSION["email"];
+
+	if(isset($_POST['nuevoNombre'])){
+		$nombre = $_POST['nuevoNombre'];
+		$consulta = "UPDATE USUARIOS SET NOMBRE='$nombre' WHERE EMAIL='$correo'";
+		$res = $db->query($consulta);
+		if(!$res){
+			echo "<p>Error en la consulta del nombre</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	if(isset($_POST['nuevoApellido'])){
+		$apellido = $_POST['nuevoApellido'];
+		$consulta = "UPDATE USUARIOS SET APELLIDOS='$apellido' WHERE EMAIL='$correo'";
+		$res = $db->query($consulta);
+		if(!$res){
+			echo "<p>Error en la consulta del apellido</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	if(isset($_POST['nuevoCorreo'])){
+		$nuevoCorreo = $_POST['nuevoCorreo'];
+		$consulta = "UPDATE USUARIOS SET EMAIL='$nuevoCorreo' WHERE EMAIL='$correo'";
+		$res = $db->query($consulta);
+		if(!$res){
+			echo "<p>Error en la consulta del correo</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	if(isset($_POST['nuevaClave'])){
+		$nuevaClave = $_POST['nuevaClave'];
+		$consulta = "UPDATE USUARIOS SET passwd='$nuevaClave' WHERE EMAIL='$correo'";
+		$res = $db->query($consulta);
+		if(!$res){
+			echo "<p>Error en la consulta de la clave</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	if(isset($_POST['nuevaResidencia'])){
+		$nuevaResidencia = $_POST['nuevaResidencia'];
+		$consulta = "UPDATE USUARIOS SET DIRECCION='$nuevaResidencia' WHERE EMAIL='$correo'";
+		$res = $db->query($consulta);
+		if(!$res){
+			echo "<p>Error en la consulta de la residencia</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	if(isset($_POST['nuevoTlf'])){
+		$nuevoTlf = $_POST['nuevoTlf'];
+		$consulta = "UPDATE USUARIOS SET TLFN='$nuevoTlf' WHERE EMAIL='$correo'";
+		$res = $db->query($consulta);
+		if(!$res){
+			echo "<p>Error en la consulta del teléfono</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	
 	desconexion($db);
 }
 ?>

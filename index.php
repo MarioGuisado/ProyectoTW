@@ -44,6 +44,9 @@
 	if(isset($_POST['editar'])){
 		EditarUsuario();
 	}
+	if(isset($_POST['confirmarModificacion'])){
+		ModificarUsuario();
+	}
 	else if(isset($_GET['p']) && $_GET['p']=="inicio"){
 		//HTMLVER();
 		echo "<p>Ver incidencia</p>";

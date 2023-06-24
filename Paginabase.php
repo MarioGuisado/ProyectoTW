@@ -95,12 +95,17 @@ function logeo(){
      	<p></p>
         <button type="submit" name="logout">Logout</button>
     </form>
+    <form action="./index.php" method="POST">
+     	<p></p>
+        <button type="submit" name="editar">Editar</button>
+    </form>
 HTML;
 		//Si se clica logout se vacian las variables de sesion del usuario:
     	if(isset($_POST['logout'])){
     		$_SESSION['nombre'] = "";
     		$_SESSION['apellidos'] = "";
     		$_SESSION['foto'] = "";
+    		$_SESSION['email'] = "";
     	}
 	}
 	else{
