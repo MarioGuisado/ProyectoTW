@@ -37,11 +37,29 @@
 		</form>
 		HTML;
 	}
+
+	function RolSelccionado($x){
+		if($x == $_SESSION['tipo'])
+			echo "selected";
+	}
+
 	function EditarUsuario(){
 		$foto = $_SESSION['foto'];
+		$nombre = $_SESSION['nombre'];
+		$apellidos = $_SESSION['apellidos'];
+		$email = $_SESSION['email'];
+		$dir = $_SESSION['direccion'];
+		$tlfn = $_SESSION['tlfn'];
+		$tipo = $_SESSION['tipo'];
 		$tipoContenido = "image/png";
 		$imagenBase64 = base64_encode($foto);
 		$src = "data:$tipoContenido;base64,$imagenBase64";
+		if($_SESSION['tipo'] == "Administrador"){
+			$habilitar = " ";
+		}else{
+			$habilitar = "disabled";
+		}
+
 
 		echo <<< HTML
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
@@ -52,47 +70,53 @@
 				</p>
 				<p>
 					<label>Nombre:
-						<input type="text" name="nuevoNombre" />
+						<input type="text" name="nuevoNombre" value="$nombre" />
 					</label>
 				</p>
 				<p>
 					<label>Apellidos:</label>
-						<input type="text" name="nuevoApellido" />
+						<input type="text" name="nuevoApellido" value="$apellidos" />
 					</label>
 				</p>
 				<p>
 					<label>Email:
-						<input type="text" name="nuevoCorreo" />
+						<input type="text" name="nuevoCorreo" value="$email" />
 					</label>
 				</p>
 				<p>
 					<label>Clave:
-						<input type="text" name="claveAnterior"  />
-						<input type="text" name="nuevaClave"  />
+						<input type="text" name="nuevaClave1"  />
+						<input type="text" name="nuevaClave2"  />
 					</label>
 				</p>
 				<p>
 					<label>Dirección:
-						<input type="text" name="nuevaResidencia"/>
+						<input type="text" name="nuevaResidencia" value="$dir" />
 					</label>
 				</p>
 				<p>
 					<label>Teléfono:
-						<input type="text" name="nuevoTlf"/>
+						<input type="text" name="nuevoTlf" value="$tlfn" />
 					</label>
 				</p>
 				<p>
 					<label>Rol:
-					<select name="rol" disabled>
-					      <option value="Colaborador">Colaborador</option>
-					      <option value="Admin">Administrador</option>
+					<select name="rol" $habilitar>
+		HTML;
+				echo "<option value='Colaborador' ";
+				RolSelccionado("Colaborador");
+				echo " >Colaborador</option>";
+				echo "<option value='Admin' ";
+				RolSelccionado("Administrador");
+				echo " >Administrador</option>";
+		echo <<< HTML
 					</select>
 					</label>
 
 				</p>
 				<p>
 					<label>Estado:
-					<select name="estado" disabled>
+					<select name="estado" $habilitar>
 					      <option value="Activo">Activo</option>
 					      <option value="Inactivo">Inactivo</option>
 					</select>

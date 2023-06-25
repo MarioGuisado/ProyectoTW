@@ -102,13 +102,6 @@ function logeo(){
 		        <button type="submit" name="editar">Editar</button>
 		    </form>
 		HTML;
-		//Si se clica logout se vacian las variables de sesion del usuario:
-    	//if(isset($_POST['logout'])){
-    	//	$_SESSION['nombre'] = "";
-    	//	$_SESSION['apellidos'] = "";
-    	//	$_SESSION['foto'] = "";
-    	//	$_SESSION['email'] = "";
-    	//}
 	}
 	else{
 		echo <<< HTML
