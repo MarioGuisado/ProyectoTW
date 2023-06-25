@@ -119,9 +119,37 @@
 			  	<input type="submit" name='EnviarFotos' value='EnviarFotos' />
 			</form>	
 		HTML;	
-		
+	}
+	function HTMLVER(){
+		echo <<< HTML
+		<h2>Criterios de búsqueda:</h2>
+		<h3>Ordenar por:</h3>
+		<form action="./index.php" method="POST" enctype="multipart/form-data">
+			<div>
+			<input type="radio" name="radioGroup" value="Antiguedad" checked>Antiguedad
+		  
+			<input type="radio" name="radioGroup"  value="Positivos">Número de positivos
+		  
+			<input type="radio" name="radioGroup"  value="PositivosNetos">Número de positivos netos
+			</div>
+			
+			<div>
+			<p><label>Texto de búsqueda:<input type="text" name="textoBusqueda"/></label></p>
+			<p><label>Lugar:<input type="text" name="textoLugar"/></label></p>
+			</div>
 
+			<div>
+			<label><input type="checkbox" name="Pendiente" checked>Pendiente</label>
+		  	<label><input type="checkbox" name="Comprobada" checked>Comprobada</label>
+		  	<label><input type="checkbox" name="Tramitada" checked>Tramitada</label>
+		  	<label><input type="checkbox" name="Irresoluble"checked>Irresoluble</label>
+		  	<label><input type="checkbox" name="Resuelta"checked>Resuelta</label>
+		  	</div>
+		  	
+		  	<input type="submit" name='EnviarCriterios' value='EnviarCriterios' />
+		</form>
 
+		HTML;	
 	}
 
 	function RolSelccionado($x){

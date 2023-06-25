@@ -1,10 +1,10 @@
 <?php
 	session_start();
 
-	require "./Paginabase.php";
-	require "./Formularios.php";
-	require "./BBDD.php";
-	require "./main.php";
+	require_once("./Paginabase.php");
+	require_once("./Formularios.php");
+	require_once("./BBDD.php");
+	require_once("./main.php");
 
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
@@ -39,6 +39,22 @@
 
 	//Acabar con la sesión
 	if(isset($_POST['logout'])){
+
+		$db = conexion();
+		date_default_timezone_set('Europe/Madrid');
+		$fechaActual = date('Y-m-d H:i:s');
+		$c = $_SESSION['email'];
+		$descripcion = "El usuario $c sale del sistema";
+		$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+		$res = $db->query($consulta);
+
+		if(!$res) {
+			echo "<p>Error en la actualización del log</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+		desconexion($db);
+
 		if(session_status() == PHP_SESSION_NONE)
 			session_start();
 		
@@ -49,6 +65,9 @@
 		setcookie($session, $_COOKIE[$session],time()-2592000,$param['path'],$param['domain'],$param['secure'],$param['httponly']);
 
 		session_destroy();
+
+
+		
 	}
 
 	HTMLinicio();
@@ -85,8 +104,7 @@
 		EDITARINCIDENCIA();
 	}
 	elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
-		//HTMLVER();
-		echo "<p>Ver incidencia</p>";
+		HTMLVER();
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
 		HTMLNUEVA(false);	
 	} elseif (isset($_GET['p']) && $_GET['p']=="otras") {
@@ -96,8 +114,7 @@
 		HTMLUSER();
 		echo "<p>Gestion usuarios</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="log") {
-		//HTMLLOG();
-		echo "<p>Ver log</p>";
+		HTMLLOG();
 	} elseif (isset($_GET['p']) && $_GET['p']=="BBDD") {
 		//HTMLBBDD();
 		echo "<p>Gestion BBDD</p>";

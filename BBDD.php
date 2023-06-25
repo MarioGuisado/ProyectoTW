@@ -38,6 +38,10 @@ function logUser($c, $pwd){
 			mysqli_free_result($res);
 		}
 	}
+
+	date_default_timezone_set('Europe/Madrid');
+	$fechaActual = date('Y-m-d H:i:s');
+
 	if (password_verify($pwd, $passwd_recuperada)) {
 		$consulta = "SELECT nombre,apellidos,admin,foto,direccion,tlfn,passwd FROM USUARIOS WHERE email='$c'";
 		$res = $db->query($consulta);
@@ -66,7 +70,29 @@ function logUser($c, $pwd){
 			echo "<p>Mensaje: ".mysqli_error()."</p>";
 
 		}
+		
+		$descripcion = "El usuario $c accede al sistema";
+		$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+		$res = $db->query($consulta);
+
+		if(!$res) {
+			echo "<p>Error en la actualización del log</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
 	}
+	else{
+		$descripcion = "Se ha intentado acceder sin éxito con la cuenta $c al sistema";
+		$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+		$res = $db->query($consulta);
+
+		if(!$res) {
+			echo "<p>Error en la actualización del log</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+		}
+	}
+	
 	desconexion($db);
 }
 
@@ -87,6 +113,20 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 		echo "<p>Código: ".mysqli_errno($db)."</p>";
 		echo "<p>Mensaje: ".mysqli_error($db)."</p>";
 	}
+
+	date_default_timezone_set('Europe/Madrid');
+	$fechaActual = date('Y-m-d H:i:s');
+	$c = $_SESSION['email'];
+	$descripcion = "El usuario $c ha añadido una incidencia";
+	$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+	$res = $db->query($consulta);
+
+	if(!$res) {
+		echo "<p>Error en la actualización del log</p>";
+		echo "<p>Código: ".mysqli_errno()."</p>";
+		echo "<p>Mensaje: ".mysqli_error()."</p>";
+	}
+
 	desconexion($db);
 }
 
@@ -133,8 +173,19 @@ function ModificarUsuario(){
 
 	    // Verificar si la actualización fue exitosa
 	    if ($stmt->affected_rows > 0) {
-		    // La actualización se realizó correctamente
-	        echo "Actualización exitosa";
+	        echo "<p>Actualización exitosa</p>";
+
+	        date_default_timezone_set('Europe/Madrid');
+	        $fechaActual = date('Y-m-d H:i:s');
+	        $descripcion = "El usuario $email_nuevo ha modificado sus datos";
+	        $consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+	        $res = $db->query($consulta);
+
+	        if(!$res) {
+	        	echo "<p>Error en la actualización del log</p>";
+	        	echo "<p>Código: ".mysqli_errno()."</p>";
+	        	echo "<p>Mensaje: ".mysqli_error()."</p>";
+	        }
 	    } else {
 		    // No se encontraron registros para actualizar
 	        echo "No se encontraron registros para actualizar";
@@ -152,5 +203,36 @@ function ModificarUsuario(){
 function ListarUsuarios(){
 	
 }
+
+function HTMLLOG(){
+	$db = conexion();
+
+	$consulta = "SELECT FECHA, DESCRIPCION FROM LOGS ORDER BY FECHA DESC";
+	
+	$res = $db->query($consulta);
+	
+	if(!$res){
+		echo "<p>Error en la consulta</p>";
+		echo "<p>Código: ".mysqli_errno($db)."</p>";
+		echo "<p>Mensaje: ".mysqli_error($db)."</p>";
+	}
+
+	if ($res->num_rows > 0) {
+	    while ($fila = $res->fetch_assoc()) {
+	    	echo "<div> <p>";
+	        foreach ($fila as $campo => $valor) {
+	            echo "$campo: $valor  |  ";
+	        }
+	        echo "</p></div>";
+	        echo "<hr>";
+	    }
+	} else {
+	    echo "No se encontraron registros en el log.";
+	}
+
+	desconexion($db);
+}
+
+
 
 ?>
