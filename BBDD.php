@@ -102,9 +102,7 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 }
 
 function ModificarUsuario(){
-	$clave1 = isset($_POST['nuevaClave1']) ? $_POST['nuevaClave1'] : " ";
-	$clave2 = isset($_POST['nuevaClave2']) ? $_POST['nuevaClave2'] : " ";
-
+	$clave1 = $_SESSION['clave'];
 	$foto = $_SESSION['foto'];
 	$nombre = $_SESSION['nombre'];
 	$apellidos = $_SESSION['apellidos'];
@@ -126,46 +124,44 @@ function ModificarUsuario(){
 	}else{
 		$habilitar = "disabled";
 	}
+	$db = conexion();
+	$consulta = "UPDATE USUARIOS SET EMAIL=?, NOMBRE=?, APELLIDOS=?, FOTO=?, DIRECCION=?, PASSWD=?, TLFN=?, ADMIN=? WHERE EMAIL=?";
+	$stmt = $db->prepare($consulta);
 
-	if($clave1 == $clave2){
-		$db = conexion();
-		$consulta = "UPDATE USUARIOS SET EMAIL=?, NOMBRE=?, APELLIDOS=?, FOTO=?, DIRECCION=?, PASSWD=?, TLFN=?, ADMIN=? WHERE EMAIL=?";
-		$stmt = $db->prepare($consulta);
-
-		if ($stmt) {
-			if($clave1 != ""){
-		    	// Generar el hash de la contraseña
-		    	$hashed_passwd = password_hash($passwd, PASSWORD_DEFAULT);
-			}
-			else{
-				$hashed_passwd = $passwd;
-			}
-		    // Vincular parámetros
-		    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $email_anterior);
-		   
-		    // Ejecutar la consulta
-		    $stmt->execute();
-
-		    // Verificar si la actualización fue exitosa
-		    if ($stmt->affected_rows > 0) {
-		        // La actualización se realizó correctamente
-		        echo "Actualización exitosa";
-		    } else {
-		        // No se encontraron registros para actualizar
-		        echo "No se encontraron registros para actualizar";
-		    }
-
-		    // Cerrar la consulta preparada
-		    $stmt->close();
-		} else {
-		    // Error al preparar la consulta
-		    echo "Error en la consulta preparada: " . $db->error;
+	if ($stmt) {
+		if($clave1 != ""){
+		    // Generar el hash de la contraseña
+		   	$hashed_passwd = password_hash($passwd, PASSWORD_DEFAULT);
 		}
-		desconexion($db);
-	}else{
-		EditarUsuario();
-		echo "<p>Error, la nueva clave debe de ser igual en los dos campos</p>";
+		else{
+			$hashed_passwd = $passwd;
+		}
+		// Vincular parámetros
+	    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $email_anterior);
+	   
+		// Ejecutar la consulta
+		$stmt->execute();
+
+	    // Verificar si la actualización fue exitosa
+	    if ($stmt->affected_rows > 0) {
+		    // La actualización se realizó correctamente
+	        echo "Actualización exitosa";
+	    } else {
+		    // No se encontraron registros para actualizar
+	        echo "No se encontraron registros para actualizar";
+	    }
+
+		// Cerrar la consulta preparada
+	    $stmt->close();
+	} else {
+		// Error al preparar la consulta
+	    echo "Error en la consulta preparada: " . $db->error;
 	}
+	desconexion($db);
+}
+
+function ListarUsuarios(){
 	
 }
+
 ?>

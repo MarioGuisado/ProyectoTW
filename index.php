@@ -4,6 +4,7 @@
 	require "./Paginabase.php";
 	require "./Formularios.php";
 	require "./BBDD.php";
+	require "./main.php"
 
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
@@ -73,12 +74,12 @@
 	echo "<div>
 		<section>";
 	if(isset($_POST['editar'])){
-		EditarUsuario();
-	}
-	if(isset($_POST['confirmarModificacion'])){
+		EditarUsuario(false);
+	} elseif(isset($_POST['Modificacion'])){
+		EditarUsuario2();
+	} elseif(isset($_POST['confirmarModificacion'])){
 		ModificarUsuario();
-	}
-	else if(isset($_GET['p']) && $_GET['p']=="inicio"){
+	} elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
 		//HTMLVER();
 		echo "<p>Ver incidencia</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
@@ -87,7 +88,7 @@
 		//HTMLOTRA();
 		echo "<p>Mas incidencia</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="usuarios") {
-		//HTMLUSER();
+		HTMLUSER();
 		echo "<p>Gestion usuarios</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="log") {
 		//HTMLLOG();
