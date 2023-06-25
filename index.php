@@ -4,7 +4,7 @@
 	require "./Paginabase.php";
 	require "./Formularios.php";
 	require "./BBDD.php";
-	require "./main.php"
+	require "./main.php";
 
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
