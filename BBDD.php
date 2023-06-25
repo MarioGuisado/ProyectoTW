@@ -82,21 +82,10 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 	
 	$res = $db->query($consulta);
 	
-	if($res){
-		//echo $claves.  $lugar. $titulo. $descripcion;
-		if(mysqli_num_rows($res)>0){
-			/*while($tupla = $res->fetch_assoc()){
-				echo $tupla['nombre'];
-				echo $tupla['apellidos'];
-			}*/
-		}else{
-			mysqli_free_result($res);
-			#logeo();
-		}
-	}else {
-	echo "<p>Error en la consulta</p>";
-	echo "<p>Código: ".mysqli_errno()."</p>";
-	echo "<p>Mensaje: ".mysqli_error()."</p>";
+	if(!$res){
+		echo "<p>Error en la consulta</p>";
+		echo "<p>Código: ".mysqli_errno($db)."</p>";
+		echo "<p>Mensaje: ".mysqli_error($db)."</p>";
 	}
 	desconexion($db);
 }

@@ -11,16 +11,6 @@
 
 	infoUsuario($email,$clave);
 
-	//Comprobamos si se han enviado las variables correspondientes a las incidencias nuevas:
-	$claves=isset($_POST['claves'])? $_POST['claves']: null;
-	$lugar=isset($_POST['lugar'])? $_POST['lugar']: null;
-	$titulo=isset($_POST['titulo'])? $_POST['titulo']: null;
-	$descripcion=isset($_POST['descripcion'])? $_POST['descripcion']: null;
-	//En caso de que se haya enviado, llamamos a la funcion que añade la nueva función:
-	if(isset($_POST['titulo']))
-		nuevaIncidencia($claves, $lugar, $titulo, $descripcion);
-
-
 	
 	if(isset($_POST['nuevoNombre'])){
 		$_SESSION['nombre'] = $_POST['nuevoNombre'];
@@ -79,11 +69,26 @@
 		EditarUsuario2();
 	} elseif(isset($_POST['confirmarModificacion'])){
 		ModificarUsuario();
-	} elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
+	} elseif(isset($_POST['EnviarDatos'])){
+		HTMLNUEVA(true);
+		$_SESSION['claves']=$_POST['claves'];
+		$_SESSION['lugar']=$_POST['lugar'];
+		$_SESSION['titulo']=$_POST['titulo'];
+		$_SESSION['descripcion']=$_POST['descripcion'];
+		echo "¿Desea confirmar los datos?";
+	} elseif(isset($_POST['ConfirmarInsercion'])){
+		$claves = $_SESSION['claves'];
+		$lugar = $_SESSION['lugar'];
+		$titulo = $_SESSION['titulo'];
+		$descripcion = $_SESSION['descripcion'];
+		nuevaIncidencia($claves, $lugar, $titulo, $descripcion);
+		EDITARINCIDENCIA();
+	}
+	elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
 		//HTMLVER();
 		echo "<p>Ver incidencia</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
-		HTMLNUEVA();
+		HTMLNUEVA(false);	
 	} elseif (isset($_GET['p']) && $_GET['p']=="otras") {
 		//HTMLOTRA();
 		echo "<p>Mas incidencia</p>";

@@ -1,6 +1,6 @@
 <?php
-require "./Formularios.php";
-require "./BBDD.php";
+require_once("./Formularios.php");
+require_once("./BBDD.php");
 
 function HTMLUSER(){
 	echo <<< HTML
