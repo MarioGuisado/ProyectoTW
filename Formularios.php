@@ -103,7 +103,7 @@
 					<label>Rol:
 					<select name="rol" $habilitar>
 		HTML;
-				echo "<option value='Admin' ";
+				echo "<option value='Administrador' ";
 				RolSelccionado("Administrador");
 				echo " >Administrador</option>";
 				echo "<option value='Colaborador' ";

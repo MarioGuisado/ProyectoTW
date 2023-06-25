@@ -113,10 +113,11 @@ function ModificarUsuario(){
 	$dir = $_SESSION['direccion'];
 	$tlfn = $_SESSION['tlfn'];
 	$tipo = $_SESSION['tipo'];
-	$tipoContenido = "image/png";
-	$imagenBase64 = base64_encode($foto);
-	$src = "data:$tipoContenido;base64,$imagenBase64";
-	$admin = $_SESSION['tipo'];
+	
+	$admin = 0;
+	if($_SESSION['tipo'] == "Administrador")
+		$admin = 1;
+	
 	$passwd = $_SESSION['passwd'];
 	
 	if($_SESSION['tipo'] == "Administrador"){
@@ -140,7 +141,7 @@ function ModificarUsuario(){
 				$hashed_passwd = $passwd;
 			}
 		    // Vincular parámetros
-		    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $imagenBase64, $dir, $hashed_passwd, $tlfn, $admin, $email_anterior);
+		    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $email_anterior);
 		   
 		    // Ejecutar la consulta
 		    $stmt->execute();
