@@ -82,7 +82,21 @@
 
 	echo "<div>
 		<section>";
-	if(isset($_POST['editar'])){
+	if(isset($_POST['ConfirmarBorrado'])){
+		echo "<section>";
+		ConfBorrar();
+		echo "</section>";
+	}elseif(isset($_POST['EditarGU'])){
+		echo "<section>";
+		echo "<p>Editar usuario</p>";
+		echo "</section>";
+	}elseif (isset($_POST['BorrarGU'])){
+		echo "<section>";
+		BorrarUsuario();
+		echo "</section>";
+	}elseif(isset($_POST['NuevoUsuario'])){
+		InsertarUsuario();
+	}elseif(isset($_POST['editar'])){
 		EditarUsuario(false);
 	} elseif(isset($_POST['Modificacion'])){
 		EditarUsuario2();
@@ -112,7 +126,6 @@
 		echo "<p>Mas incidencia</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="usuarios") {
 		HTMLUSER();
-		echo "<p>Gestion usuarios</p>";
 	} elseif (isset($_GET['p']) && $_GET['p']=="log") {
 		HTMLLOG();
 	} elseif (isset($_GET['p']) && $_GET['p']=="BBDD") {

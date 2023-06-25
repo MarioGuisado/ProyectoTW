@@ -272,4 +272,67 @@
 		echo "</div>";
 		echo "</form>";
 	}
+
+	function NuevoUsuario(){
+		$url = $_SERVER['SCRIPT_NAME'];
+		echo <<< HTML
+		<h2>Nuevo usuario</h2>
+		<form method="post" action="$url">
+		<p>
+			<label>Fotografía: <input type="file" name="Img"/></label>
+		</p>
+		<p>
+			<label>Nombre:
+				<input type="text" name="nombre"/>
+			</label>
+		</p>
+		<p>
+			<label>Apellidos:</label>
+				<input type="text" name="apellido"/>
+			</label>
+		</p>
+		<p>
+			<label>Email:
+				<input type="text" name="correo"/>
+			</label>
+		</p>
+		<p>
+			<label>Clave:
+				<input type="text" name="clave1"  />
+				<input type="text" name="clave2"  />
+			</label>
+		</p>
+		<p>
+			<label>Dirección:
+				<input type="text" name="Residencia" />
+			</label>
+			</p>
+			<p>
+				<label>Teléfono:
+					<input type="text" name="Tlf" />
+				</label>
+			</p>
+			<p>
+				<label>Rol:
+				<select name="rolUser">
+					<option value='Colaborador'>Colaborador</option>
+					<option value='Administrador'>Administrador</option>
+				</select>
+				</label>
+			</p>
+			<p>
+				<label>Estado:
+				<select name="estadoUser">
+				      <option value="Activo">Activo</option>
+				      <option value="Inactivo">Inactivo</option>
+				</select>
+				</label>
+			</p>
+			<input type="hidden" id="9.11">
+			<input type='submit' name='NuevoUsuario' value='Crear usuario'/>
+			</div>
+			</form>
+
+		HTML;
+	}
 ?>
