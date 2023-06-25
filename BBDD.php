@@ -6,7 +6,6 @@ function conexion(){
 	$db = mysqli_connect(DB_HOST,DB_USER,DB_PASSWD,DB_DATABASE);
 
 	if ($db) {
-		echo "<p>Conexión con éxito</p>";
 	} else {
 		echo "<p>Error de conexión</p>";
 		echo "<p>Código: ".mysqli_connect_errno()."</p>";
@@ -49,15 +48,20 @@ function logUser($c, $pwd){
 					$_SESSION['apellidos'] = $tupla['apellidos'];
 					$_SESSION['foto'] = $tupla['foto'];
 					$_SESSION['email'] = $c;
+					if($tupla['admin'] == 1){
+						$_SESSION['tipo'] = "Administrador";
+					}else{
+						$_SESSION['tipo'] = "Colaborador";
+					}
 				}
 			}else{
 				mysqli_free_result($res);
-				#logeo();
 			}
 		}else {
-		echo "<p>Error en la consulta</p>";
-		echo "<p>Código: ".mysqli_errno()."</p>";
-		echo "<p>Mensaje: ".mysqli_error()."</p>";
+			echo "<p>Error en la consulta</p>";
+			echo "<p>Código: ".mysqli_errno()."</p>";
+			echo "<p>Mensaje: ".mysqli_error()."</p>";
+
 		}
 	}
 	desconexion($db);

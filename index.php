@@ -8,6 +8,8 @@
 	$email=isset($_POST['email']) && filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) && !empty($_POST['email'])? $_POST['email'] : NULL;
 	$clave=isset($_POST['clave'])? $_POST['clave']: null;
 
+	infoUsuario($email,$clave);
+
 	//Comprobamos si se han enviado las variables correspondientes a las incidencias nuevas:
 	$claves=isset($_POST['claves'])? $_POST['claves']: null;
 	$lugar=isset($_POST['lugar'])? $_POST['lugar']: null;
@@ -34,9 +36,12 @@
 
 	HTMLinicio();
 	HTMLtitulo();
-	$tipo = isset($_SESSION['tipo'])? $_SESSION['tipo']:"administrador";
-	$nombre = isset($_SESSION['nombre'])? $_SESSION['nombre']:"";
-	$apellidos = isset($_SESSION['apellidos'])? $_SESSION['apellidos']:"";
+
+	//Comprobamos los datos del usuario
+	$tipo = isset($_SESSION['tipo'])? $_SESSION['tipo']: NULL;
+	$nombre = isset($_SESSION['nombre'])? $_SESSION['nombre']: NULL;
+	$apellidos = isset($_SESSION['apellidos'])? $_SESSION['apellidos']:NULL;
+
 	HTMLnav($tipo);
 
 	echo "<div>

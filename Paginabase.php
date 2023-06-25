@@ -42,7 +42,7 @@ function HTMLnav($x){
 			<li><a href="./index.php?p=incidencia">Nueva incidencia</a></li>
 			<li><a href="./index.php?p=otras">Más incidencias</a></li>
 		HTML;
-		if($x == "administrador"){
+		if($x == "Administrador"){
 			echo <<< HTML
 				<li><a href="./index.php?p=usuarios">Gestión de usuarios</a></li>
 				<li><a href="./index.php?p=log">Ver log</a></li>
@@ -79,34 +79,36 @@ function HTMLfooter(){
 
 function logeo(){
 	//Si hay algun nombre registrado en la variable de sesion, es decir, si hay alguien logueado:
-	if(isset($_SESSION['nombre']) && $_SESSION['nombre'] != ""){
+	if(isset($_SESSION['nombre'])){
 		$nombre = $_SESSION['nombre'];
 		$apellidos = $_SESSION['apellidos'];
 		$foto = $_SESSION['foto'];
+		$tipo = $_SESSION['tipo'];
 
 		$tipoContenido = "image/png";
 		$imagenBase64 = base64_encode($foto);
 		$src = "data:$tipoContenido;base64,$imagenBase64";
 			
 		echo <<<HTML
-    <p>$nombre $apellidos</p>
-    <img src="$src" alt="Imagen">
-    <form action="./index.php" method="POST">
-     	<p></p>
-        <button type="submit" name="logout">Logout</button>
-    </form>
-    <form action="./index.php" method="POST">
-     	<p></p>
-        <button type="submit" name="editar">Editar</button>
-    </form>
-HTML;
+		    <p>$nombre $apellidos</p>
+		    <p>$tipo<p>
+		    <img src="$src" alt="Imagen">
+		    <form action="./index.php" method="POST">
+		     	<p></p>
+		        <button type="submit" name="logout">Logout</button>
+		    </form>
+		    <form action="./index.php" method="POST">
+		     	<p></p>
+		        <button type="submit" name="editar">Editar</button>
+		    </form>
+		HTML;
 		//Si se clica logout se vacian las variables de sesion del usuario:
-    	if(isset($_POST['logout'])){
-    		$_SESSION['nombre'] = "";
-    		$_SESSION['apellidos'] = "";
-    		$_SESSION['foto'] = "";
-    		$_SESSION['email'] = "";
-    	}
+    	//if(isset($_POST['logout'])){
+    	//	$_SESSION['nombre'] = "";
+    	//	$_SESSION['apellidos'] = "";
+    	//	$_SESSION['foto'] = "";
+    	//	$_SESSION['email'] = "";
+    	//}
 	}
 	else{
 		echo <<< HTML
@@ -133,7 +135,6 @@ function HTMLlateral($x,$email,$clave){
 	<aside>
 	HTML;
 	logeo();
-	infoUsuario($email,$clave);
 	echo <<< HTML
 			<div class = "otros">
 				<ol>Ranking de incidencias
