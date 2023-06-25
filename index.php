@@ -20,6 +20,32 @@
 		nuevaIncidencia($claves, $lugar, $titulo, $descripcion);
 
 
+	
+	if(isset($_POST['nuevoNombre'])){
+		$_SESSION['nombre'] = $_POST['nuevoNombre'];
+	}
+	if(isset($_POST['nuevoApellido'])){
+		$_SESSION['apellidos'] = $_POST['nuevoApellido'];
+	}
+	if(isset($_POST['nuevoCorreo'])){
+		$_SESSION['antiguoCorreo'] = $_SESSION['email'];
+		$_SESSION['email'] = $_POST['nuevoCorreo'];
+		//echo "se cambio el correo";
+		//echo "el antiguo es " . $_SESSION['antiguoCorreo'] . " y el nuevo es ". $_SESSION['email'];
+	}
+	if(isset($_POST['nuevaResidencia'])){
+		$_SESSION['direccion'] = $_POST['nuevaResidencia'];
+	}
+	if(isset($_POST['nuevoTlf'])){
+		$_SESSION['tlfn'] = $_POST['nuevoTlf'];
+	}
+	if(isset($_POST['rol'])){
+		$_SESSION['tipo'] = $_POST['rol'];
+	}
+	if(isset($_POST['nuevaImg'])){
+		$_SESSION['foto'] = $_POST['nuevaImg'];
+	}
+
 	//Acabar con la sesión
 	if(isset($_POST['logout'])){
 		if(session_status() == PHP_SESSION_NONE)
