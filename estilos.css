@@ -1,6 +1,26 @@
 body{
 	background-color: NavajoWhite;
 }
+
+p.log label{
+	color: brown;
+}
+p.log:nth-child(even){
+	margin-bottom: 20px;
+	border-width: 0px 2px 2px 2px;
+	border-style: solid;
+	border-color: brown;
+}
+p.log:nth-child(odd){
+	border-width: 2px 2px 0px 2px;
+	border-style: solid;
+	border-color: brown;
+}
+p.log{
+	background-color: rgb(220,174,165);
+	padding: 10px;
+	margin: 0px;
+}
 header{
 	background-color: brown;
 	width: 100%;
@@ -8,8 +28,17 @@ header{
 	padding-top: 3%;
 	padding-bottom: 3%;
 }
+.busqueda *:not(legend){
+	padding: 5px;
+	margin: 5px;
+}
+.busqueda2{
+	border-width: 2px 0px 2px 0px;
+	border-style: dashed;
+	border-color: brown
+}
 
-.nuevaincidencia, .incidencia,.nuevoUsuario{
+.nuevaincidencia, .incidencia,.nuevoUsuario, fieldset{
 	background-color: rgb(220,174,165);
 }
 
@@ -38,7 +67,7 @@ header{
 	color: brown;
 }
 
-.nuevaincidencia legend{
+legend{
 	padding: 10px;
 	background-color:#c580d0;
 	border-block-width: 2px;

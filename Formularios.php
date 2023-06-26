@@ -125,9 +125,10 @@
 	function HTMLVER(){
 		echo <<< HTML
 		<h2>Criterios de búsqueda:</h2>
-		<h3>Ordenar por:</h3>
+		<fieldset class="busqueda">
+		<legend>Ordenar por</legend>
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-			<div class="busqueda">
+			<div class="busqueda1">
 			<input type="radio" name="radioGroup" value="Antiguedad" checked>Antiguedad
 		  
 			<input type="radio" name="radioGroup"  value="Positivos">Número de positivos
@@ -135,12 +136,12 @@
 			<input type="radio" name="radioGroup"  value="PositivosNetos">Número de positivos netos
 			</div>
 			
-			<div class="busqueda">
+			<div class="busqueda2">
 			<p><label>Texto de búsqueda:<input type="text" name="textoBusqueda"/></label></p>
 			<p><label>Lugar:<input type="text" name="textoLugar"/></label></p>
 			</div>
 
-			<div class="busqueda">
+			<div class="busqueda3">
 			<label><input type="checkbox" name="Pendiente" checked>Pendiente</label>
 		  	<label><input type="checkbox" name="Comprobada" checked>Comprobada</label>
 		  	<label><input type="checkbox" name="Tramitada" checked>Tramitada</label>
@@ -150,6 +151,7 @@
 		  	
 		  	<input type="submit" name='EnviarCriterios' value='EnviarCriterios' />
 		</form>
+		</fieldset>
 
 		HTML;	
 	}

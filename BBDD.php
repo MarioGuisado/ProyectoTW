@@ -256,14 +256,17 @@ function HTMLLOG(){
 	}
 
 	if ($res->num_rows > 0) {
+		echo "<section>";
 	    while ($fila = $res->fetch_assoc()) {
-	    	echo "<div> <p>";
 	        foreach ($fila as $campo => $valor) {
-	            echo "$campo: $valor  |  ";
+	        	echo "<p class= 'log'><label>";
+	        	echo "$campo: ";
+	        	echo "</label>";
+	            echo " $valor ";
+	            echo "</p>";
 	        }
-	        echo "</p></div>";
-	        echo "<hr>";
 	    }
+	    echo "</section>";
 	} else {
 	    echo "<p>class ='error'>No se encontraron registros en el log.</p>";
 	}
