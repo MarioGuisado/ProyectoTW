@@ -54,20 +54,14 @@
 
 	HTMLnav($tipo);
 
-	echo "<div>
-		<section>";
+	echo '<div class="contenido">';
+	echo "<main>";
 	if(isset($_POST['ConfirmarBorrado'])){
-		echo "<section>";
 		ConfBorrar();
-		echo "</section>";
 	}elseif(isset($_POST['EditarGU'])){
-		echo "<section>";
 		EditarUsuario(false,$_POST['usuario']);
-		echo "</section>";
 	}elseif (isset($_POST['BorrarGU'])){
-		echo "<section>";
 		BorrarUsuario();
-		echo "</section>";
 	}elseif(isset($_POST['NuevoUsuario'])){
 		InsertarUsuario();
 	}elseif(isset($_POST['editar'])){
@@ -82,7 +76,7 @@
 		$_SESSION['lugar']=$_POST['lugar'];
 		$_SESSION['titulo']=$_POST['titulo'];
 		$_SESSION['descripcion']=$_POST['descripcion'];
-		echo "¿Desea confirmar los datos?";
+		echo "<p>¿Desea confirmar los datos?<p>";
 	} elseif(isset($_POST['ConfirmarInsercion'])){
 		$claves = $_SESSION['claves'];
 		$lugar = $_SESSION['lugar'];
@@ -117,7 +111,7 @@
 		echo "<p>Gestion BBDD</p>";
 	}else
 		echo "<p>Ver incidencia</p>";
-	echo "</section>";
+	echo "</main>";
 			HTMLlateral($tipo,$email,$clave);
 	echo "</div>";
 	HTMLfooter();

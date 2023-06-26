@@ -1,58 +1,111 @@
 body{
 	background-color: NavajoWhite;
 }
-nav{
-	background-color: rgb(222,184,135);
+header{
+	background-color: brown;
+	width: 100%;
+	display: block;
+	padding-top: 3%;
+	padding-bottom: 3%;
+}
+
+.titulo{
 	display: flex;
 	align-items: center;
+	text-align: center;
+	justify-content: center;
+	font-size: 22px;
+}
+
+header > h2{
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	color: #c28a6d;
+	font-size: 100%;
+}
+nav{
+	background-color: rgb(220,174,165);
+	width: 100%;
+	direction: flex;
 	justify-content: center;
 }
+
 nav ul{
 	display: flex;
-	justify-content: space-between;
-	width: 95%;
+	justify-content: space-around;
+	text-align: center;
+	width: auto;
 	padding: 0px;
-	margin: 10px;
 
 }
 nav li{
 	list-style-type: none;
+	padding: 1%;
 	width: auto;
+	background-color:#c580d0;
+	border-block-width: 2px;
+	border-radius: 10px;
 }
 nav li a{
 	display: flex;
 	text-align: center;
 	width: auto;
+	color: black;
 	text-decoration: none;
 }
-
-header{
-	background-color: brown;
-	display: flex;
-	align-items: center;
-	text-align: center;
-	justify-content: center;
+.contenido{
+	width: 100%;
+	direction: block;
 }
 .logeo{
-	border-width: 1px;
+	background-color: 
+  padding: 1px;
+	border-width: 0px 0px 2px 0px;
 	border-color: brown;
+	border-style: dashed;
+}
+.logeo > form{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 .otros{
-	border-width: 1px;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	border-width: 2px 0px 0px 0px;
 	border-color: brown;
+	border-style: dashed;
 }
-section{
-	width: 70%;
+.otros >ol{
+	background-color: rgb(220,174,165);
+	list-style-position: inside;
+}
+main{
+	float: left;
+	width: 60%;
+	margin-left: 15px;
+}
+main > h2{
+	padding: 2px;
+	border-width: 0px 0px 2px 0px;
+	border-color: brown;
+	border-style: solid;
+}
+.ponerusuario{
+	margin: 10px;
+}
+.ponerusuario > form{
+	margin-top: 20px;
 }
 aside{
 	background-color: rgb(222,184,135);
 	display: flex;
 	float: right;
 	flex-direction: column;
-	width:25%;
+	width:30%;
 	padding: 10px;
 	margin: 5px;
 	height: auto;

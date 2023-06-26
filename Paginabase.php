@@ -25,7 +25,7 @@ function HTMLtitulo(){
 		<div class="titulo">
 			<img src="icono_incidencia.png" alt="Altavoz de queja">
 			<h1>Por un municipio mejor</h1>
-		<div>
+		</div>
 		<h2> Informa de cualquier incidencia sobre el servicio público para ayudar a mejorarlo</h2>
 	</header>
 	HTML;

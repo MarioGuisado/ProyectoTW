@@ -465,7 +465,7 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 		}
 		if($res->num_rows > 0){
-			echo "<div></p>";
+			echo "<div class='incidencia'></p>";
 			while($fila = $res->fetch_assoc()){			
 				foreach ($fila as $campo => $valor) {
 					   echo "$campo: $valor ";
@@ -506,7 +506,7 @@ function HTMLMISINCIDENCIAS(){
 			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 		}
 		if($res->num_rows > 0){
-			echo "<div></p>";
+			echo "<div class='incidencia'></p>";
 			while($fila = $res->fetch_assoc()){			
 			    foreach ($fila as $campo => $valor) {
 			    		echo "$campo: $valor ";

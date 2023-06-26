@@ -135,12 +135,12 @@
 			<input type="radio" name="radioGroup"  value="PositivosNetos">Número de positivos netos
 			</div>
 			
-			<div>
+			<div class="busqueda">
 			<p><label>Texto de búsqueda:<input type="text" name="textoBusqueda"/></label></p>
 			<p><label>Lugar:<input type="text" name="textoLugar"/></label></p>
 			</div>
 
-			<div>
+			<div class="busqueda">
 			<label><input type="checkbox" name="Pendiente" checked>Pendiente</label>
 		  	<label><input type="checkbox" name="Comprobada" checked>Comprobada</label>
 		  	<label><input type="checkbox" name="Tramitada" checked>Tramitada</label>
