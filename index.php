@@ -11,32 +11,6 @@
 
 	infoUsuario($email,$clave);
 
-	
-	if(isset($_POST['nuevoNombre'])){
-		$_SESSION['nombre'] = $_POST['nuevoNombre'];
-	}
-	if(isset($_POST['nuevoApellido'])){
-		$_SESSION['apellidos'] = $_POST['nuevoApellido'];
-	}
-	if(isset($_POST['nuevoCorreo'])){
-		$_SESSION['antiguoCorreo'] = $_SESSION['email'];
-		$_SESSION['email'] = $_POST['nuevoCorreo'];
-		//echo "se cambio el correo";
-		//echo "el antiguo es " . $_SESSION['antiguoCorreo'] . " y el nuevo es ". $_SESSION['email'];
-	}
-	if(isset($_POST['nuevaResidencia'])){
-		$_SESSION['direccion'] = $_POST['nuevaResidencia'];
-	}
-	if(isset($_POST['nuevoTlf'])){
-		$_SESSION['tlfn'] = $_POST['nuevoTlf'];
-	}
-	if(isset($_POST['rol'])){
-		$_SESSION['tipo'] = $_POST['rol'];
-	}
-	if(isset($_POST['nuevaImg'])){
-		$_SESSION['foto'] = $_POST['nuevaImg'];
-	}
-
 	//Acabar con la sesión
 	if(isset($_POST['logout'])){
 
@@ -88,7 +62,7 @@
 		echo "</section>";
 	}elseif(isset($_POST['EditarGU'])){
 		echo "<section>";
-		echo "<p>Editar usuario</p>";
+		EditarUsuario(false,$_POST['usuario']);
 		echo "</section>";
 	}elseif (isset($_POST['BorrarGU'])){
 		echo "<section>";
@@ -97,7 +71,7 @@
 	}elseif(isset($_POST['NuevoUsuario'])){
 		InsertarUsuario();
 	}elseif(isset($_POST['editar'])){
-		EditarUsuario(false);
+		EditarUsuario(false,$_SESSION['email']);
 	} elseif(isset($_POST['Modificacion'])){
 		EditarUsuario2();
 	} elseif(isset($_POST['confirmarModificacion'])){

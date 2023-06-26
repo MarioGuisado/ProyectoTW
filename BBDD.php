@@ -43,7 +43,7 @@ function logUser($c, $pwd){
 	$fechaActual = date('Y-m-d H:i:s');
 
 	if (password_verify($pwd, $passwd_recuperada)) {
-		$consulta = "SELECT nombre,apellidos,admin,foto,direccion,tlfn,passwd FROM USUARIOS WHERE email='$c'";
+		$consulta = "SELECT nombre,apellidos,admin,foto,direccion,tlfn,passwd,estado FROM USUARIOS WHERE email='$c'";
 		$res = $db->query($consulta);
 		if($res){
 			if(mysqli_num_rows($res)>0){
@@ -60,6 +60,8 @@ function logUser($c, $pwd){
 					}else{
 						$_SESSION['tipo'] = "Colaborador";
 					}
+					$_SESSION['rol'] =$tupla['admin'];
+					$_SESSION['estado'] = $tupla['estado'];
 				}
 			}else{
 				mysqli_free_result($res);
@@ -131,61 +133,96 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 }
 
 function ModificarUsuario(){
-	$clave1 = $_SESSION['clave'];
-	$foto = $_SESSION['foto'];
-	$nombre = $_SESSION['nombre'];
-	$apellidos = $_SESSION['apellidos'];
-	$email_nuevo = $_SESSION['email'];
-	$email_anterior = $_SESSION['antiguoCorreo'];
-	$dir = $_SESSION['direccion'];
-	$tlfn = $_SESSION['tlfn'];
-	$tipo = $_SESSION['tipo'];
-	
-	$admin = 0;
-	if($_SESSION['tipo'] == "Administrador")
-		$admin = 1;
-	
-	$passwd = $_SESSION['passwd'];
-	
-	if($_SESSION['tipo'] == "Administrador"){
-		$habilitar = " ";
-		$admin = 1;
-	}else{
-		$habilitar = "disabled";
-	}
 	$db = conexion();
-	$consulta = "UPDATE USUARIOS SET EMAIL=?, NOMBRE=?, APELLIDOS=?, FOTO=?, DIRECCION=?, PASSWD=?, TLFN=?, ADMIN=? WHERE EMAIL=?";
-	$stmt = $db->prepare($consulta);
+	$id = $_POST['tipoEditar'];
+	
+	$consulta = "SELECT nombre,apellidos,passwd,email,foto,direccion,tlfn,admin,estado FROM USUARIOS WHERE email='$id'";
+	$res = $db->query($consulta);
+	if($res){
+		if(mysqli_num_rows($res)>0){
+			while($tupla = $res->fetch_assoc()){
+				$clave1 = isset($_POST['clave1']) ? $_POST['clave1'] : $tupla['passwd'];
+				$foto = isset($_POST['nuevaImg']) ? $_POST['nuevaImg'] : $tupla['foto'];
+				$nombre = isset($_POST['nuevoNombre']) ? $_POST['nuevoNombre'] : $tupla['nombre'];
+				$apellidos = isset($_POST['nuevoApellido']) ? $_POST['nuevoApellido'] : $tupla['apellidos'];
+				$email_nuevo = isset($_POST['nuevoCorreo']) ? $_POST['nuevoCorreo'] : $tupla['email'];
+				$dir = isset($_POST['nuevaResidencia']) ? $_POST['nuevaResidencia']: $tupla['direccion'];
+				$tlfn = isset($_POST['nuevoTlf']) ? $_POST['nuevoTlf']: $tupla['tlfn'];
+				$estado = isset($_POST['estado']) ? $_POST['estado']: $tupla['estado'];
+				if(isset($_POST['rol'])){
+					if($_POST['rol'] == "Administrador"){
+						$admin = 1;
+					}else{
+						$admin = 0;
+					}
+				}else{
+					$rol = $tupla['admin'];
+				}
 
+				$tipoContenido = "image/png";
+				$imagenBase64 = base64_encode($foto);
+				$src = "data:$tipoContenido;base64,$imagenBase64";
+			}
+		}
+	}
+	$consulta = "UPDATE USUARIOS SET EMAIL=?, NOMBRE=?, APELLIDOS=?, FOTO=?, DIRECCION=?, PASSWD=?, TLFN=?, ADMIN=?, ESTADO=?  WHERE EMAIL=?";
+	$stmt = $db->prepare($consulta);
 	if ($stmt) {
 		if($clave1 != ""){
 		    // Generar el hash de la contraseña
-		   	$hashed_passwd = password_hash($passwd, PASSWORD_DEFAULT);
+		   	$hashed_passwd = password_hash($clave1, PASSWORD_DEFAULT);
 		}
 		else{
-			$hashed_passwd = $passwd;
+			$hashed_passwd = $clave1;
 		}
 		// Vincular parámetros
-	    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $email_anterior);
+	    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $estado,$id);
 	   
 		// Ejecutar la consulta
 		$stmt->execute();
 
 	    // Verificar si la actualización fue exitosa
 	    if ($stmt->affected_rows > 0) {
-	        echo "<p>Actualización exitosa</p>";
+		    // La actualización se realizó correctamente
+	        echo "Actualización exitosa";
+	        if($_SESSION['email'] == $id){
+				    if(isset($_POST['nuevoNombre'])){
+						$_SESSION['nombre'] = $nombre;
+					}
+					if(isset($_POST['nuevoApellido'])){
+						$_SESSION['apellidos'] = $apellidos;
+					}
+					if(isset($_POST['nuevoCorreo'])){
+						$_SESSION['email'] = $email;
+						//echo "se cambio el correo";
+						//echo "el antiguo es " . $_SESSION['antiguoCorreo'] . " y el nuevo es ". $_SESSION['email'];
+					}
+					if(isset($_POST['nuevaResidencia'])){
+						$_SESSION['direccion'] = $dir;
+					}
+					if(isset($_POST['nuevoTlf'])){
+						$_SESSION['tlfn'] = $tlfn;
+					}
+					if(isset($_POST['rol'])){
+						$_SESSION['tipo'] = $_POST['rol'];
+					}
+					if(isset($_POST['nuevaImg'])){
+						$_SESSION['foto'] = $foto;
+					}
+			}
 
-	        date_default_timezone_set('Europe/Madrid');
-	        $fechaActual = date('Y-m-d H:i:s');
-	        $descripcion = "El usuario $email_nuevo ha modificado sus datos";
-	        $consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
-	        $res = $db->query($consulta);
+			date_default_timezone_set('Europe/Madrid');
+			$fechaActual = date('Y-m-d H:i:s');
+			$descripcion = "El usuario $email_nuevo ha modificado sus datos";
+			$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+			$lres = $db->query($consulta);
 
-	        if(!$res) {
-	        	echo "<p>Error en la actualización del log</p>";
-	        	echo "<p>Código: ".mysqli_errno()."</p>";
-	        	echo "<p>Mensaje: ".mysqli_error()."</p>";
-	        }
+			if(!$lres) {
+			  	echo "<p>Error en la actualización del log</p>";
+			   	echo "<p>Código: ".mysqli_errno()."</p>";
+			   	echo "<p>Mensaje: ".mysqli_error()."</p>";
+			}
+
 	    } else {
 		    // No se encontraron registros para actualizar
 	        echo "No se encontraron registros para actualizar";

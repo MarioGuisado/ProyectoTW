@@ -152,8 +152,13 @@
 		HTML;	
 	}
 
-	function RolSelccionado($x){
-		if($x == $_SESSION['tipo'])
+	function RolSelccionado($x,$rol){
+		if($x == $rol)
+			echo "selected";
+	}
+
+	function EstadoSelccionado($x,$est){
+		if($x == $est)
 			echo "selected";
 	}
 
@@ -162,17 +167,29 @@
 		$clave2 = isset($_POST['nuevaClave2']) ? $_POST['nuevaClave2'] : " ";
 		if($clave1 == $clave2){
 			$_SESSION['clave'] = $clave1;
-			EditarUsuario(true);
+			EditarUsuario(true,$_POST['tipoEditar']);
 		}else{
-			EditarUsuario(false);
+			EditarUsuario(false,$_POST['tipoEditar']);
 			echo "<p>Error, la nueva clave debe de ser igual en los dos campos</p>";
 		}
 	}
 
-	function EditarUsuario($x){
+	function EditarUsuario($x,$yo){
 		if($x){
 			$seleccionado = "disabled";
 			$habilitar = "disabled";
+			$foto = isset($_POST['nuevaImg'])? $_POST['nuevaImg']:NULL;
+			$nombre = $_POST['nuevoNombre'];
+			$apellidos = $_POST['nuevoApellido'];
+			$email = $_POST['nuevoCorreo'];
+			$dir = $_POST['nuevaResidencia'];
+			$tlfn = $_POST['nuevoTlf'];
+			$estado = $_POST['estado'];
+			if($_POST['rol'] == "Administrador"){
+				$rol = 1;
+			}else{
+				$rol = 0;
+			}
 		}else{
 			if($_SESSION['tipo'] == "Administrador"){
 				$habilitar = " ";
@@ -180,16 +197,37 @@
 				$habilitar = "disabled ";
 			}
 			$seleccionado = "";
+			if($yo == $_SESSION['email']){
+				$rol = $_SESSION['rol'];
+				$foto = $_SESSION['foto'];
+				$nombre = $_SESSION['nombre'];
+				$apellidos = $_SESSION['apellidos'];
+				$email = $_SESSION['email'];
+				$dir = $_SESSION['direccion'];
+				$tlfn = $_SESSION['tlfn'];
+				$estado = $_SESSION['estado'];
+			}else{
+				$db = conexion();
+	
+				$consulta = "SELECT nombre,apellidos,passwd,email,foto,direccion,tlfn,admin,estado FROM USUARIOS WHERE email='$yo'";
+				$res = $db->query($consulta);
+				if($res){
+					if(mysqli_num_rows($res)>0){
+						while($tupla = $res->fetch_assoc()){
+							$foto = $tupla['foto'];
+							$nombre = $tupla['nombre'];
+							$apellidos = $tupla['apellidos'];
+							$email = $tupla['email'];
+							$dir = $tupla['direccion'];
+							$tlfn = $tupla['tlfn'];
+							$estado = $tupla['estado'];
+							$rol = $tupla['admin'];
+						}
+					}
+				}
+				desconexion($db);
+			}
 		}
-
-		$_SESSION['rol'] = isset($_POST['rol']) ? $_POST['rol'] : $_SESSION['tipo'];
-		$foto = $_SESSION['foto'];
-		$nombre = $_SESSION['nombre'];
-		$apellidos = $_SESSION['apellidos'];
-		$email = $_SESSION['email'];
-		$dir = $_SESSION['direccion'];
-		$tlfn = $_SESSION['tlfn'];
-		$tipo = $_SESSION['tipo'];
 		$tipoContenido = "image/png";
 		$imagenBase64 = base64_encode($foto);
 		$src = "data:$tipoContenido;base64,$imagenBase64";
@@ -241,29 +279,29 @@
 				<p>
 					<label>Rol:
 					<select name="rol" $habilitar $seleccionado>
+						<option value='Administrador'
 		HTML;
-				echo "<option value='Administrador' ";
-				RolSelccionado("Administrador");
+				RolSelccionado("1",$rol);
 				echo " >Administrador</option>";
 				echo "<option value='Colaborador' ";
-				RolSelccionado("Colaborador");
-				echo " >Colaborador</option>";
+				RolSelccionado("0",$rol);
 				
 		echo <<< HTML
+					>Colaborador</option>
 					</select>
 					</label>
 
 				</p>
 				<p>
 					<label>Estado:
-					<select name="estado" $habilitar $seleccionado>
-					      <option value="Activo">Activo</option>
-					      <option value="Inactivo">Inactivo</option>
-					</select>
-					</label>
-				</p>	
-			<input type="hidden" id="9.11" $seleccionado>
-		HTML;
+					<select name='estado' $habilitar $seleccionado>
+				HTML;
+					      echo "<option value='Activo' ".EstadoSelccionado("activo",$estado).">Activo</option>";
+					      echo "<option value='Inactivo' ".EstadoSelccionado("activo",$estado).">Inactivo</option>";
+					echo "</select>";
+					echo "</label>";
+				echo "</p>";
+		echo "<input type='hidden' name='tipoEditar' value=".$email.">";
 		if($x){
 			echo "<input type='submit' name='confirmarModificacion' value='Confirmar modificación'/>";
 		}else{
