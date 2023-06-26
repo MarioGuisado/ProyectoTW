@@ -500,7 +500,7 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 				echo "</div>";
 				CajaComentarios($ultimoID);	
 				echo "</section>";	
-				
+
 				$consulta2 = "SELECT IDCOMENTARIO FROM TIENEN WHERE IDINCIDENCIA='$ultimoID'";
 				$res2 = $db->query($consulta2);
 				$claves = array();
@@ -534,7 +534,7 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 			}
 		}
 		else{
-			 echo "<p>class ='error'>No se encontraron incidencias.</p>";
+			 echo "<p>No se encontraron incidencias.</p>";
 		}	
 
 	
