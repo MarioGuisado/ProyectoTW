@@ -463,15 +463,18 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 		}
 		if($res->num_rows > 0){
 			$ultimoID = "";
-			echo "<div class='incidencia'><p>";
-			while($fila = $res->fetch_assoc()){			
+			while($fila = $res->fetch_assoc()){
+				echo '<section class="ver"';			
 				foreach ($fila as $campo => $valor) {
-					   echo "$campo: $valor ";
+					   	echo "<p><label>";
+						echo "$campo:";
+						echo "</label>";
+				   		echo " $valor ";
+				   		echo "</p>";
 					   $ultimoID = $fila['ID'];
 				}
-				echo "<hr>";
-				CajaComentarios($ultimoID);
-				echo "<hr>";		
+				echo "</section>";
+				CajaComentarios($ultimoID);		
 				$consulta2 = "SELECT IDCOMENTARIO FROM TIENEN WHERE IDINCIDENCIA='$ultimoID'";
 				$res2 = $db->query($consulta2);
 				$claves = array();
@@ -487,15 +490,21 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 							echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 						}
 						if($res3->num_rows > 0){
-							while($fila = $res3->fetch_assoc()){			
+							echo "<div class='caja'>";
+							while($fila = $res3->fetch_assoc()){
+								echo "<div class='comentario'>";	
 							    foreach ($fila as $campo => $valor) {
-							    		echo "$campo: $valor ";
-							    }		
+							    		echo "<p><label>";
+							    		echo "$campo:";
+							    		echo "</label>";
+							    		echo " $valor ";
+							    		echo "</p>";
+							    }
+							    echo "</div>";
 							}
-							echo "<br>";
+							echo "</div>";
 						}
 					}
-				echo "</p></div><br>";
 			}
 		}
 		else{
