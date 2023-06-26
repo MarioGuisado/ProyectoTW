@@ -176,7 +176,7 @@ function ModificarUsuario(){
 			$hashed_passwd = $clave1;
 		}
 		// Vincular parámetros
-	    $stmt->bind_param("sssbssiis", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $estado,$id);
+	    $stmt->bind_param("sssbssiiss", $email_nuevo, $nombre, $apellidos, $foto, $dir, $hashed_passwd, $tlfn, $admin, $estado,$id);
 	   
 		// Ejecutar la consulta
 		$stmt->execute();
