@@ -3,6 +3,18 @@ require_once("credenciales.php");
 require_once("Paginabase.php");
 require_once("Formularios.php");
 
+$id_valorado = "";
+$valoracion = 1;
+if(isset($_POST['ValorarPositivamente'])){ 
+	$id_valorado = $_POST['incidenciaValorada'];
+	ValorarIncidencia($id_valorado, $valoracion);
+}
+if(isset($_POST['ValorarNegativamente'])){
+	$id_valorado = $_POST['incidenciaValorada'];
+	$valoracion = -1;
+	ValorarIncidencia($id_valorado, $valoracion);
+}
+
 function conexion(){
 	$db = mysqli_connect(DB_HOST,DB_USER,DB_PASSWD,DB_DATABASE);
 
@@ -106,7 +118,8 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 	$fechaActual = date('Y-m-d H:i:s');
 	$nombre = $_SESSION['nombre'];
 	$apellidos = $_SESSION['apellidos'];
-	$consulta = "INSERT INTO INCIDENCIAS (ID,CLAVES,LUGAR,FECHA,NOMBRE,TITULO,DESCRIPCION,ESTADO,APELLIDOS) VALUES (NULL,'$claves','$lugar','$fechaActual','$nombre','$titulo','$descripcion','$estado','$apellidos')";
+	$valoracion = 0;
+	$consulta = "INSERT INTO INCIDENCIAS (ID,CLAVES,LUGAR,FECHA,NOMBRE,TITULO,DESCRIPCION,ESTADO,APELLIDOS, VALORACION) VALUES (NULL,'$claves','$lugar','$fechaActual','$nombre','$titulo','$descripcion','$estado','$apellidos', '$valoracion')";
 	
 	$res = $db->query($consulta);
 	
@@ -453,8 +466,13 @@ function ConfBorrar(){
 
 function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresoluble, $resuelta){
 	$db = conexion();
-	if($criterio == 'Antiguedad'){
-		$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION FROM INCIDENCIAS ORDER BY FECHA DESC";
+
+	//Criterio por antiguedad por defecto:
+	$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION, VALORACION FROM INCIDENCIAS ORDER BY FECHA DESC";
+	if($criterio == 'Positivos'){
+		$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION, VALORACION FROM INCIDENCIAS ORDER BY VALORACION DESC";
+	}
+		
 		$res = $db->query($consulta);
 		if(!$res) {
 			echo "<p class ='error'>Error en la consulta</p>";
@@ -464,7 +482,8 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 		if($res->num_rows > 0){
 			$ultimoID = "";
 			while($fila = $res->fetch_assoc()){
-				echo '<section class="ver"';			
+				echo '<section class="ver">';
+				echo '<div>';			
 				foreach ($fila as $campo => $valor) {
 					   	echo "<p><label>";
 						echo "$campo:";
@@ -473,8 +492,17 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 				   		echo "</p>";
 					   $ultimoID = $fila['ID'];
 				}
-				echo "</section>";
-				CajaComentarios($ultimoID);		
+				echo <<< HTML
+					<form method="POST">
+						<input type="submit" name="ValorarPositivamente" value="+">
+						<input type="submit" name="ValorarNegativamente" value="-"/>
+						<input type="hidden" name="incidenciaValorada" value="$ultimoID">
+					</form>
+				HTML;
+				echo "</div>";
+				CajaComentarios($ultimoID);	
+				echo "</section>";	
+				
 				$consulta2 = "SELECT IDCOMENTARIO FROM TIENEN WHERE IDINCIDENCIA='$ultimoID'";
 				$res2 = $db->query($consulta2);
 				$claves = array();
@@ -511,7 +539,7 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 			 echo "<p>class ='error'>No se encontraron incidencias.</p>";
 		}	
 
-	}
+	
 	desconexion($db);
 }
 
@@ -596,6 +624,20 @@ function IntroducirComentario($comentario, $usuario, $id){
 
 	}	
 	
+	desconexion($db);
+}
+
+function ValorarIncidencia($id_valorado, $valoracion){
+	$db = conexion();
+
+	$consulta = "UPDATE INCIDENCIAS SET VALORACION = VALORACION + '$valoracion' WHERE ID='$id_valorado'";
+	$res = $db->query($consulta);
+	if(!$res) {
+			echo "<p class ='error'>Error en la consulta</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+	}
+			
 	desconexion($db);
 }
 

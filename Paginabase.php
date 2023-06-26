@@ -131,7 +131,7 @@ function HTMLlateral($x,$email,$clave){
 				<ol>Ranking de incidencias
 					<li>User1</li>
 					<li>User2</li>
-					<li>Ueser3</li>
+					<li>User3</li>
 				</ol>
 				<ol>Ranking de opiniones
 					<li>User1</li>
