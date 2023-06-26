@@ -115,12 +115,23 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 		echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
 		echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 	}
+	$ultimoID = $db->insert_id;
 
 	date_default_timezone_set('Europe/Madrid');
 	$fechaActual = date('Y-m-d H:i:s');
 	$c = $_SESSION['email'];
 	$descripcion = "El usuario $c ha añadido una incidencia";
 	$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+	$res = $db->query($consulta);
+
+	if(!$res) {
+		echo "<p class ='error'>Error en la actualización del log</p>";
+		echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+		echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
+	}
+
+
+	$consulta = "INSERT INTO CREAN (IDINCIDENCIA,EMAIL) VALUES ($ultimoID,'$c')";
 	$res = $db->query($consulta);
 
 	if(!$res) {
@@ -443,5 +454,70 @@ function ConfBorrar(){
 	desconexion($db);
 }
 
+function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresoluble, $resuelta){
+	$db = conexion();
+	if($criterio == 'Antiguedad'){
+		$consulta = "SELECT TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION FROM INCIDENCIAS ORDER BY FECHA DESC";
+		$res = $db->query($consulta);
+		if(!$res) {
+			echo "<p class ='error'>Error en la consulta</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+		}
+		if($res->num_rows > 0){
+			echo "<div></p>";
+			while($fila = $res->fetch_assoc()){			
+				foreach ($fila as $campo => $valor) {
+					   echo "$campo: $valor ";
+				}
+				echo "<hr>";		
+			}
+				echo "</p></div><br>";
+		}
+		else{
+			 echo "<p>class ='error'>No se encontraron incidencias.</p>";
+		}	
+	}
+	desconexion($db);
+}
+
+function HTMLMISINCIDENCIAS(){
+	$db = conexion();
+	$email = $_SESSION['email'];
+	$consulta = "SELECT IDINCIDENCIA FROM CREAN WHERE EMAIL='$email'";
+	$res = $db->query($consulta);
+	if(!$res) {
+			echo "<p class ='error'>Error en la consulta</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+	}
+	$claves = array();
+	
+	while($fila = $res->fetch_assoc()){			
+		$claves[] = $fila['IDINCIDENCIA'];
+	}	
+		
+	foreach ($claves as $clave) {
+		$consulta = "SELECT TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION FROM INCIDENCIAS WHERE ID='$clave' ORDER BY FECHA DESC";
+		$res = $db->query($consulta);
+		if(!$res) {
+			echo "<p class ='error'>Error en la consulta</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+		}
+		if($res->num_rows > 0){
+			echo "<div></p>";
+			while($fila = $res->fetch_assoc()){			
+			    foreach ($fila as $campo => $valor) {
+			    		echo "$campo: $valor ";
+			    }
+			    echo "<hr>";		
+			}
+			echo "</p></div><br>";
+		}
+	}	
+	
+	desconexion($db);
+}
 
 ?>

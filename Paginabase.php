@@ -40,7 +40,7 @@ function HTMLnav($x){
 	if(isset($x)){
 		echo <<< HTML
 			<li><a href="./index.php?p=incidencia">Nueva incidencia</a></li>
-			<li><a href="./index.php?p=otras">Más incidencias</a></li>
+			<li><a href="./index.php?p=otras">Mis incidencias</a></li>
 		HTML;
 		if($x == "Administrador"){
 			echo <<< HTML

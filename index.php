@@ -91,13 +91,23 @@
 		nuevaIncidencia($claves, $lugar, $titulo, $descripcion);
 		EDITARINCIDENCIA();
 	}
+	elseif(isset($_POST['EnviarCriterios'])){
+		$criterio = $_POST['radioGroup']; 
+
+		$pendiente = isset( $_POST['Pendiente']) ? $pendiente = 1 : $pendiente = 0;
+		$comprobada = isset( $_POST['Comprobada']) ? $comprobada = 1 : $comprobada = 0;
+		$tramitada = isset( $_POST['Tramitada']) ? $tramitada = 1 : $tramitada = 0;
+		$irresoluble = isset( $_POST['Irresoluble']) ? $irresoluble = 1 : $irresoluble = 0;
+		$resuelta = isset( $_POST['Resuelta']) ? $resuelta = 1 : $resuelta = 0;
+
+		VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresoluble, $resuelta);
+	}
 	elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
 		HTMLVER();
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
 		HTMLNUEVA(false);	
 	} elseif (isset($_GET['p']) && $_GET['p']=="otras") {
-		//HTMLOTRA();
-		echo "<p>Mas incidencia</p>";
+		HTMLMISINCIDENCIAS();
 	} elseif (isset($_GET['p']) && $_GET['p']=="usuarios") {
 		HTMLUSER();
 	} elseif (isset($_GET['p']) && $_GET['p']=="log") {
