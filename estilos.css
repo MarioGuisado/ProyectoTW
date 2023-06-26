@@ -9,6 +9,21 @@ header{
 	padding-bottom: 3%;
 }
 
+.correcto{
+	font-size: 22px;
+	width: auto;
+	padding: 3%;
+	text-align: center;
+	background-color: #bce477;
+}
+.error{
+	font-size: 22px;
+	width: auto;
+	padding: 3%;
+	text-align: center;
+	background-color: #f77451;
+}
+
 .titulo{
 	display: flex;
 	align-items: center;
@@ -110,6 +125,61 @@ aside{
 	margin: 5px;
 	height: auto;
 }
+.correcto{
+	font-size: 22px;
+	width: auto;
+	padding: 3%;
+	text-align: center;
+	background-color: #bce477;
+}
+
+.error{
+	font-size: 22px;
+	width: auto;
+	padding: 3%;
+	text-align: center;
+	background-color: #f77451;
+}
+
+.gestion{
+	padding: 5px 0px 20px 0px;
+	border-width: 0px 0px 2px 0px;
+	border-color: brown;
+	border-style: dashed;
+}
+
+.ListarUsuario{
+	background-color:rgb(220,174,165);
+	padding: 5px;
+	border-width: 2px 2px 2px 2px;
+	border-color: brown;
+	border-style: dotted;
+	margin: 8px;
+	display: flex;
+	align-items: center;
+}
+.ListarUsuario .img{
+	margin-right: 10px;
+	border-width: 0px;
+	max-width: 30%;
+}
+.ListarUsuario form{
+	display: flex;
+	width: auto;
+  flex-direction: column;
+	align-items: center;
+}
+.ListarUsuario form input{
+	margin: 10px;
+}
+
+.ListarUsuario div{
+	border-width: 0px 1px 0px 1px;
+	padding: 5px;
+	border-color: brown;
+	border-style: solid;
+	width: 65%
+}
 
 footer{
 	background-color: brown;
@@ -117,6 +187,7 @@ footer{
 	align-items: center;
 	justify-content: center;
 	width: 100%;
+	margin-top: 10px;
 }
 footer ul{
 	display: flex;

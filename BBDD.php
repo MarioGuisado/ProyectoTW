@@ -159,16 +159,8 @@ function ModificarUsuario(){
 				$email_nuevo = isset($_POST['nuevoCorreo']) ? $_POST['nuevoCorreo'] : $tupla['email'];
 				$dir = isset($_POST['nuevaResidencia']) ? $_POST['nuevaResidencia']: $tupla['direccion'];
 				$tlfn = isset($_POST['nuevoTlf']) ? $_POST['nuevoTlf']: $tupla['tlfn'];
-				$estado = isset($_POST['estado']) ? $_POST['estado']: $tupla['estado'];
-				if(isset($_POST['rol'])){
-					if($_POST['rol'] == "Administrador"){
-						$admin = 1;
-					}else{
-						$admin = 0;
-					}
-				}else{
-					$rol = $tupla['admin'];
-				}
+				$estado = isset($_POST['tipoEstado']) ? $_POST['tipoEstado']: $tupla['estado'];
+				$admin = isset($_POST['tipoRol']) ? $_POST['tipoRol']: $tupla['admin'];
 
 				$tipoContenido = "image/png";
 				$imagenBase64 = base64_encode($foto);
@@ -195,7 +187,7 @@ function ModificarUsuario(){
 	    // Verificar si la actualización fue exitosa
 	    if ($stmt->affected_rows > 0) {
 		    // La actualización se realizó correctamente
-	        echo "Actualización exitosa";
+	        echo "<p class='correcto'>Actualización exitosa</p>";
 	        if($_SESSION['email'] == $id){
 				    if(isset($_POST['nuevoNombre'])){
 						$_SESSION['nombre'] = $nombre;
@@ -214,8 +206,10 @@ function ModificarUsuario(){
 					if(isset($_POST['nuevoTlf'])){
 						$_SESSION['tlfn'] = $tlfn;
 					}
-					if(isset($_POST['rol'])){
-						$_SESSION['tipo'] = $_POST['rol'];
+					if($rol){
+						$_SESSION['tipo'] = "Administrador";
+					}else{
+						$_SESSION['tipo'] = "Colaborador";
 					}
 					if(isset($_POST['nuevaImg'])){
 						$_SESSION['foto'] = $foto;

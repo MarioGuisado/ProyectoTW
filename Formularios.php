@@ -178,7 +178,7 @@
 
 	function EditarUsuario($x,$yo){
 		if($x){
-			$seleccionado = "disabled";
+			$seleccionado = "readonly";
 			$habilitar = "disabled";
 			$foto = isset($_POST['nuevaImg'])? $_POST['nuevaImg']:NULL;
 			$nombre = $_POST['nuevoNombre'];
@@ -186,17 +186,13 @@
 			$email = $_POST['nuevoCorreo'];
 			$dir = $_POST['nuevaResidencia'];
 			$tlfn = $_POST['nuevoTlf'];
-			$estado = $_POST['estado'];
-			if($_POST['rol'] == "Administrador"){
-				$rol = 1;
-			}else{
-				$rol = 0;
-			}
+			$estado = isset($_POST['estado']) ?  $_POST['estado'] : $_POST['tipoEstado'];
+			$rol =isset($_POST['rol']) ? $_POST['rol'] :$_POST['tipoRol'];
 		}else{
 			if($_SESSION['tipo'] == "Administrador"){
 				$habilitar = " ";
 			}else{
-				$habilitar = "disabled ";
+				$habilitar = "readonly ";
 			}
 			$seleccionado = "";
 			if($yo == $_SESSION['email']){
@@ -281,15 +277,15 @@
 				<p>
 					<label>Rol:
 					<select name="rol" $habilitar $seleccionado>
-						<option value='Administrador'
+						<option value='1'
 		HTML;
 				RolSelccionado("1",$rol);
 				echo " >Administrador</option>";
-				echo "<option value='Colaborador' ";
+				echo "<option value='0' ";
 				RolSelccionado("0",$rol);
+				echo ">Colaborador</option>";
 				
 		echo <<< HTML
-					>Colaborador</option>
 					</select>
 					</label>
 
@@ -298,13 +294,19 @@
 					<label>Estado:
 					<select name='estado' $habilitar $seleccionado>
 				HTML;
-					      echo "<option value='Activo' ".EstadoSelccionado("activo",$estado).">Activo</option>";
-					      echo "<option value='Inactivo' ".EstadoSelccionado("activo",$estado).">Inactivo</option>";
+					      echo "<option value='Activo' ";
+					      EstadoSelccionado("Activo",$estado);
+					      echo ">Activo</option>";
+					      echo "<option value='Inactivo' ";
+					      EstadoSelccionado("Inactivo",$estado);
+					      echo ">Inactivo</option>";
 					echo "</select>";
 					echo "</label>";
 				echo "</p>";
 		echo "<input type='hidden' name='tipoEditar' value=".$email.">";
-		if($x){
+		echo "<input type='hidden' name='tipoRol' value=".$rol.">";
+		echo "<input type='hidden' name='tipoEstado' value=".$estado.">";
+		if($x){			
 			echo "<input type='submit' name='confirmarModificacion' value='Confirmar modificación'/>";
 		}else{
 			echo "<input type='submit' name='Modificacion' value='Modificar usuario'/>";
