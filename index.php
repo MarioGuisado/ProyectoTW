@@ -23,9 +23,9 @@
 		$res = $db->query($consulta);
 
 		if(!$res) {
-			echo "<p>Error en la actualización del log</p>";
-			echo "<p>Código: ".mysqli_errno()."</p>";
-			echo "<p>Mensaje: ".mysqli_error()."</p>";
+			echo '<p class="error">Error en la actualización del log</p>';
+			echo '<p class="error">Código: '.mysqli_errno().'</p>';
+			echo '<p class="error">Mensaje: '.mysqli_error().'</p>';
 		}
 		desconexion($db);
 
