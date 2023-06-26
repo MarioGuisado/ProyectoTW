@@ -457,7 +457,7 @@ function ConfBorrar(){
 function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresoluble, $resuelta){
 	$db = conexion();
 	if($criterio == 'Antiguedad'){
-		$consulta = "SELECT TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION FROM INCIDENCIAS ORDER BY FECHA DESC";
+		$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION FROM INCIDENCIAS ORDER BY FECHA DESC";
 		$res = $db->query($consulta);
 		if(!$res) {
 			echo "<p class ='error'>Error en la consulta</p>";
@@ -465,18 +465,46 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 		}
 		if($res->num_rows > 0){
-			echo "<div class='incidencia'></p>";
+			$ultimoID = "";
+			echo "<div class='incidencia'><p>";
 			while($fila = $res->fetch_assoc()){			
 				foreach ($fila as $campo => $valor) {
 					   echo "$campo: $valor ";
+					   $ultimoID = $fila['ID'];
 				}
+				echo "<hr>";
+				CajaComentarios($ultimoID);
 				echo "<hr>";		
-			}
+				$consulta2 = "SELECT IDCOMENTARIO FROM TIENEN WHERE IDINCIDENCIA='$ultimoID'";
+				$res2 = $db->query($consulta2);
+				$claves = array();
+				while($fila = $res2->fetch_assoc()){			
+					$claves[] = $fila['IDCOMENTARIO'];
+				}	
+				foreach ($claves as $clave) {
+						$consulta3 = "SELECT USUARIO, FECHA, DESCRIPCION FROM COMENTARIOS WHERE ID='$clave' ORDER BY FECHA DESC";
+						$res3 = $db->query($consulta3);
+						if(!$res3) {
+							echo "<p class ='error'>Error en la consulta</p>";
+							echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+							echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+						}
+						if($res3->num_rows > 0){
+							while($fila = $res3->fetch_assoc()){			
+							    foreach ($fila as $campo => $valor) {
+							    		echo "$campo: $valor ";
+							    }		
+							}
+							echo "<br>";
+						}
+					}
 				echo "</p></div><br>";
+			}
 		}
 		else{
 			 echo "<p>class ='error'>No se encontraron incidencias.</p>";
 		}	
+
 	}
 	desconexion($db);
 }
@@ -515,6 +543,46 @@ function HTMLMISINCIDENCIAS(){
 			}
 			echo "</p></div><br>";
 		}
+	}	
+	
+	desconexion($db);
+}
+
+function IntroducirComentario($comentario, $usuario, $id){
+	$db = conexion();
+	date_default_timezone_set('Europe/Madrid');
+	$fechaActual = date('Y-m-d H:i:s');
+
+	$consulta = "INSERT INTO COMENTARIOS (ID,USUARIO,FECHA,DESCRIPCION) VALUES (NULL,'$usuario','$fechaActual','$comentario')";
+	$res = $db->query($consulta);
+	if(!$res) {
+			echo "<p class ='error'>Error en la introducción del comentario</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+	}
+	else{
+
+		$ultimoID = $db->insert_id;
+
+		$consulta = "INSERT INTO TIENEN (IDCOMENTARIO,IDINCIDENCIA) VALUES ('$ultimoID','$id')";
+		$res = $db->query($consulta);
+
+		if(!$res) {
+			echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
+		}
+
+		$email = $_SESSION['email'];
+		$descripcion = "El usuario $email ha añadido un comentario";
+		$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
+		$res = $db->query($consulta);
+
+		if(!$res) {
+			echo "<p class ='error'>Error en la actualización del log</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
+		}
+
 	}	
 	
 	desconexion($db);

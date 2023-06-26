@@ -96,6 +96,12 @@
 
 		VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresoluble, $resuelta);
 	}
+	elseif(isset($_POST['EnviarComentario'])){
+		$comentario = $_POST['Comentario'];
+		$usuario = $nombre . " " . $apellidos;
+		$idIncidencia = $_POST['ID'];
+		IntroducirComentario($comentario, $usuario, $idIncidencia);
+	}
 	elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
 		HTMLVER();
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {

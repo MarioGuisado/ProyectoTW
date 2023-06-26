@@ -376,4 +376,18 @@
 
 		HTML;
 	}
+
+	function CajaComentarios($id){
+		echo <<< HTML
+		<form method="POST" action="./index.php">
+			<input type="text" name="Comentario" placeholder="Escriba un comentario..." required />
+					</label>
+			<input type="hidden" id="9.11">
+			<input type="hidden" name="ID" value="$id" />
+			<input type='submit' name='EnviarComentario' value='EnviarComentario'/>
+		</form>
+		HTML;
+	}
+
+
 ?>
