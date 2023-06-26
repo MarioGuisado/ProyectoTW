@@ -8,9 +8,9 @@ function conexion(){
 
 	if ($db) {
 	} else {
-		echo "<p>Error de conexión</p>";
-		echo "<p>Código: ".mysqli_connect_errno()."</p>";
-		echo "<p>Mensaje: ".mysqli_connect_error()."</p>";
+		echo "<p class ='error'>Error de conexión</p>";
+		echo "<p class ='error'>Código: ".mysqli_connect_errno()."</p>";
+		echo "<p class ='error'>Mensaje: ".mysqli_connect_error()."</p>";
 		die("Adiós");
 	}
 	// Establecer el conjunto de caracteres del cliente
@@ -67,9 +67,9 @@ function logUser($c, $pwd){
 				mysqli_free_result($res);
 			}
 		}else {
-			echo "<p>Error en la consulta</p>";
-			echo "<p>Código: ".mysqli_errno()."</p>";
-			echo "<p>Mensaje: ".mysqli_error()."</p>";
+			echo "<p class ='error'>Error en la consulta</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 
 		}
 		
@@ -78,9 +78,9 @@ function logUser($c, $pwd){
 		$res = $db->query($consulta);
 
 		if(!$res) {
-			echo "<p>Error en la actualización del log</p>";
-			echo "<p>Código: ".mysqli_errno()."</p>";
-			echo "<p>Mensaje: ".mysqli_error()."</p>";
+			echo "<p class ='error'>Error en la actualización del log</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 		}
 	}
 	else{
@@ -89,9 +89,9 @@ function logUser($c, $pwd){
 		$res = $db->query($consulta);
 
 		if(!$res) {
-			echo "<p>Error en la actualización del log</p>";
-			echo "<p>Código: ".mysqli_errno()."</p>";
-			echo "<p>Mensaje: ".mysqli_error()."</p>";
+			echo "<p class ='error'>Error en la actualización del log</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 		}
 	}
 	
@@ -111,9 +111,9 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 	$res = $db->query($consulta);
 	
 	if(!$res){
-		echo "<p>Error en la consulta</p>";
-		echo "<p>Código: ".mysqli_errno($db)."</p>";
-		echo "<p>Mensaje: ".mysqli_error($db)."</p>";
+		echo "<p class ='error'>Error en la consulta</p>";
+		echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+		echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 	}
 
 	date_default_timezone_set('Europe/Madrid');
@@ -124,9 +124,9 @@ function nuevaIncidencia($claves, $lugar, $titulo, $descripcion){
 	$res = $db->query($consulta);
 
 	if(!$res) {
-		echo "<p>Error en la actualización del log</p>";
-		echo "<p>Código: ".mysqli_errno()."</p>";
-		echo "<p>Mensaje: ".mysqli_error()."</p>";
+		echo "<p class ='error'>Error en la actualización del log</p>";
+		echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+		echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 	}
 
 	desconexion($db);
@@ -218,21 +218,21 @@ function ModificarUsuario(){
 			$lres = $db->query($consulta);
 
 			if(!$lres) {
-			  	echo "<p>Error en la actualización del log</p>";
-			   	echo "<p>Código: ".mysqli_errno()."</p>";
-			   	echo "<p>Mensaje: ".mysqli_error()."</p>";
+			  	echo "<p class ='error'>Error en la actualización del log</p>";
+			   	echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			   	echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 			}
 
 	    } else {
 		    // No se encontraron registros para actualizar
-	        echo "No se encontraron registros para actualizar";
+	        echo "<p class ='error'>No se encontraron registros para actualizar</p>";
 	    }
 
 		// Cerrar la consulta preparada
 	    $stmt->close();
 	} else {
 		// Error al preparar la consulta
-	    echo "Error en la consulta preparada: " . $db->error;
+	    echo "<p class ='error'>Error en la consulta preparada: " . $db->error . "</p>";
 	}
 	desconexion($db);
 }
@@ -245,9 +245,9 @@ function HTMLLOG(){
 	$res = $db->query($consulta);
 	
 	if(!$res){
-		echo "<p>Error en la consulta</p>";
-		echo "<p>Código: ".mysqli_errno($db)."</p>";
-		echo "<p>Mensaje: ".mysqli_error($db)."</p>";
+		echo "<p class ='error'>Error en la consulta</p>";
+		echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+		echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 	}
 
 	if ($res->num_rows > 0) {
@@ -260,7 +260,7 @@ function HTMLLOG(){
 	        echo "<hr>";
 	    }
 	} else {
-	    echo "No se encontraron registros en el log.";
+	    echo "<p>class ='error'>No se encontraron registros en el log.</p>";
 	}
 
 	desconexion($db);
@@ -290,19 +290,19 @@ function InsertarUsuario(){
 		$num = mysqli_fetch_row($res)[0];
 		mysqli_free_result($res);
 		if($num > 0){
-			echo "<p>Error, ya existe un usuario con esos datos</p>";
+			echo "<p class ='error'>Error, ya existe un usuario con esos datos</p>";
 		}else{
 			$res = mysqli_query($db, "INSERT INTO USUARIOS (email,nombre,apellidos,foto,direccion,passwd,tlfn,admin,estado) VALUES ('{$email}','{$nombre}','{$apellidos}','{$foto}','{$direccion}','{$clave1}','{$tlf}','{$rol}','{$estado}')");
 			if(!$res){
-				echo "<p>Error ".mysqli_error($db)." al insertar el usuario</p>";
+				echo "<p class ='error'>Error ".mysqli_error($db)." al insertar el usuario</p>";
 			}else{
-				echo "<p>El nuevo usuario se ha creado con éxito</p>";
+				echo "<p class ='correcto'>El nuevo usuario se ha creado con éxito</p>";
 			}
 		}
 		desconexion($db);
 	}else{
 		NuevoUsuario();
-		echo "<p>Error, la nueva clave debe de ser igual en los dos campos</p>";
+		echo "<p class ='error'>Error, la nueva clave debe de ser igual en los dos campos</p>";
 	}
 }
 
@@ -335,8 +335,8 @@ function ListarUsuarios(){
 				$src = "data:$tipoContenido;base64,$imagenBase64";
 
 				echo <<< HTML
-				<section>
-					<div><img src="$src" alt="Imagen"></div>
+				<section class ="ListarUsuario">
+					<div class="img"><img src="$src" alt="Imagen"></div>
 					<div>
 						<p>Usuario: $nom $ap</p>
 						<p>Email: $email</p>
@@ -358,9 +358,9 @@ function ListarUsuarios(){
 			mysqli_free_result($res);
 		}
 	}else {
-		echo "<p>Error en la consulta</p>";
-		echo "<p>Código: ".mysqli_errno()."</p>";
-		echo "<p>Mensaje: ".mysqli_error()."</p>";
+		echo "<p class ='error'>Error en la consulta</p>";
+		echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+		echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 	}
 
 	desconexion($db);
@@ -395,9 +395,9 @@ function BorrarUsuario(){
 					$src = "data:$tipoContenido;base64,$imagenBase64";
 
 					echo <<< HTML
-					<section>
+					<section class ="borrarusuario">
 						<h2>Comfirme borrado de este usuario</h2>
-						<div><img src="$src" alt="Imagen"></div>
+						<div class="img1"><img src="$src" alt="Imagen"></div>
 						<div>
 							<p>Usuario: $nom $ap</p>
 							<p>Email: $email</p>
@@ -419,14 +419,14 @@ function BorrarUsuario(){
 				mysqli_free_result($res);
 			}
 		}else {
-			echo "<p>Error en la consulta</p>";
-			echo "<p>Código: ".mysqli_errno()."</p>";
-			echo "<p>Mensaje: ".mysqli_error()."</p>";
+			echo "<p class ='error'>Error en la consulta</p>";
+			echo "<p class ='error'>Código: ".mysqli_errno()."</p>";
+			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 		}
 
 		desconexion($db);
 	}else{
-		echo "<p>Error al seleccionar usuario para ser borrado</p>";
+		echo "<p class ='error'>Error al seleccionar usuario para ser borrado</p>";
 	}
 }
 
@@ -436,9 +436,9 @@ function ConfBorrar(){
 	$db = conexion();
 	mysqli_query($db, "DELETE FROM USUARIOS WHERE email='$id'");
 	if(mysqli_affected_rows($db)==1){
-		echo "<p>El usuario ha sido borrado correctamente</p>";
+		echo "<p class ='correcto'>El usuario ha sido borrado correctamente</p>";
 	}else{
-		echo "<p>Error: El usuario no se ha podido borrar</p>";
+		echo "<p class ='error'>Error: El usuario no se ha podido borrar</p>";
 	}
 	desconexion($db);
 }

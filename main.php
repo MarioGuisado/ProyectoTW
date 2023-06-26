@@ -10,7 +10,7 @@ function HTMLUSER(){
 	}else{
 		echo <<< HTML
 			<h2>Gestion de usuarios</h2>
-			<form method="post" action="./index.php?p=usuarios">
+			<form method="post" action="./index.php?p=usuarios" class="gestion">
 				<input type='submit' name='Listar' value='Listar usuarios'/>
 				<input type='submit' name='NuevoUser' value='Nuevo usuario'/>
 			</form>

@@ -33,7 +33,7 @@ function HTMLtitulo(){
 
 function HTMLnav($x){
 	echo <<< HTML
-	<nav>
+	<nav class="navegar">
 		<ul>
 			<li><a href="./index.php?p=inicio">Ver incidencias</a></li>
 	HTML;
