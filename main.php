@@ -3,24 +3,40 @@ require_once ("./Formularios.php");
 require_once ("./BBDD.php");
 
 function HTMLUSER(){
+	echo <<< HTML
+		<h2>Gestión de usuarios</h2>
+		<form method="post" action="./index.php?p=usuarios" class="gestion">
+			<input type='submit' name='Listar' value='Listar usuarios'/>
+			<input type='submit' name='NuevoUser' value='Nuevo usuario'/>
+		</form>
+	HTML;
+		
 	if(isset($_POST['NuevoUser'])){
 		echo "<section>";
 		NuevoUsuario();
 		echo "</section>";
-	}else{
-		echo <<< HTML
-			<h2>Gestion de usuarios</h2>
-			<form method="post" action="./index.php?p=usuarios" class="gestion">
-				<input type='submit' name='Listar' value='Listar usuarios'/>
-				<input type='submit' name='NuevoUser' value='Nuevo usuario'/>
-			</form>
-		HTML;
-		
-		if (isset($_POST['Listar'])){
-			echo "<section>";
-			ListarUsuarios();
-			echo "</section>";
-		}
+	}elseif (isset($_POST['Listar'])){
+		echo "<section>";
+		ListarUsuarios();
+		echo "</section>";
+	}elseif(isset($_POST['EditarGU'])){
+		echo "<section>";
+		EditarUsuario(false,$_POST['usuario']);
+		echo "</section>";
+	}elseif (isset($_POST['BorrarGU'])){
+		echo "<section>";
+		BorrarUsuario();
+		echo "</section>";
+	}elseif(isset($_POST['NuevoUsuario'])){
+		echo "<section>";
+		InsertarUsuario();
+		echo "</section>";
+	}else if(isset($_POST['ConfirmarBorrado'])){
+		ConfBorrar();
+	}elseif(isset($_POST['Modificacion'])){
+		EditarUsuario2();
+	} elseif(isset($_POST['confirmarModificacion'])){
+		ModificarUsuario();
 	}
 }
 

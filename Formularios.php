@@ -18,7 +18,7 @@
 		echo <<< HTML
 		<h2>Nueva incidencia</h2>
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-			<fieldset class="incidencia">
+			<fieldset class="nuevaincidencia">
 				<legend>Datos principales: </legend>
 				<p>
 					<label>Titulo de la incidencia:
@@ -177,6 +177,7 @@
 	}
 
 	function EditarUsuario($x,$yo){
+		$url = $_SERVER['SCRIPT_NAME'];
 		if($x){
 			$seleccionado = "readonly";
 			$habilitar = "disabled";
@@ -231,7 +232,7 @@
 		$src = "data:$tipoContenido;base64,$imagenBase64";
 
 		echo <<< HTML
-		<form action="./index.php" method="POST" enctype="multipart/form-data">
+		<form action="$url" method="POST" enctype="multipart/form-data">
 			<h2>Edición de usuario</h2>
 			<fieldset class="editarUsuario">
 				<p>

@@ -196,9 +196,7 @@ function ModificarUsuario(){
 						$_SESSION['apellidos'] = $apellidos;
 					}
 					if(isset($_POST['nuevoCorreo'])){
-						$_SESSION['email'] = $email;
-						//echo "se cambio el correo";
-						//echo "el antiguo es " . $_SESSION['antiguoCorreo'] . " y el nuevo es ". $_SESSION['email'];
+						$_SESSION['email'] = $email_nuevo;
 					}
 					if(isset($_POST['nuevaResidencia'])){
 						$_SESSION['direccion'] = $dir;
@@ -206,7 +204,7 @@ function ModificarUsuario(){
 					if(isset($_POST['nuevoTlf'])){
 						$_SESSION['tlfn'] = $tlfn;
 					}
-					if($rol){
+					if($admin){
 						$_SESSION['tipo'] = "Administrador";
 					}else{
 						$_SESSION['tipo'] = "Colaborador";
@@ -253,6 +251,8 @@ function HTMLLOG(){
 		echo "<p class ='error'>Error en la consulta</p>";
 		echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
 		echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+	}else{
+		echo "<h2>Log</h2>";
 	}
 
 	if ($res->num_rows > 0) {
@@ -350,7 +350,7 @@ function ListarUsuarios(){
 						<p>Rol: $rol</p>
 						<p>Estado: $estado</p>
 					</div>
-					<form method="post" action="$url">
+					<form method="post" action="./index.php?p=usuarios">
 						<input type="hidden" name="usuario" value="$email">
 						<input type="submit" src="editar.png" width="20px" formmethod="post" name="EditarGU" value="EditarGU">
 						<input type="submit" src="borrar.png" width="20px" formmethod="post" name="BorrarGU" value="BorrarGU">
@@ -401,7 +401,7 @@ function BorrarUsuario(){
 
 					echo <<< HTML
 					<section class ="borrarusuario">
-						<h2>Comfirme borrado de este usuario</h2>
+						<h2>Confirme borrado de este usuario</h2>
 						<div class="img1"><img src="$src" alt="Imagen"></div>
 						<div>
 							<p>Usuario: $nom $ap</p>
@@ -512,6 +512,8 @@ function HTMLMISINCIDENCIAS(){
 			echo "<p class ='error'>Error en la consulta</p>";
 			echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
 			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+	}else{
+		echo "<h2>Mis incidencias</h2>";
 	}
 	$claves = array();
 	
@@ -528,14 +530,17 @@ function HTMLMISINCIDENCIAS(){
 			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 		}
 		if($res->num_rows > 0){
-			echo "<div class='incidencia'></p>";
-			while($fila = $res->fetch_assoc()){			
+			echo "<section class='incidencia'>";
+			while($fila = $res->fetch_assoc()){		
 			    foreach ($fila as $campo => $valor) {
-			    		echo "$campo: $valor ";
-			    }
-			    echo "<hr>";		
+			    		echo "<p><label>";
+			    		echo "$campo:";
+			    		echo "</label>";
+			    		echo " $valor ";
+			    		echo "</p>";
+			    }	
 			}
-			echo "</p></div><br>";
+			echo "</section>";
 		}
 	}	
 	

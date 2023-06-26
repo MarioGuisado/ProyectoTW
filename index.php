@@ -101,9 +101,6 @@
 		$usuario = $nombre . " " . $apellidos;
 		$idIncidencia = $_POST['ID'];
 		IntroducirComentario($comentario, $usuario, $idIncidencia);
-	}
-	elseif(isset($_GET['p']) && $_GET['p']=="inicio"){
-		HTMLVER();
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
 		HTMLNUEVA(false);	
 	} elseif (isset($_GET['p']) && $_GET['p']=="otras") {
@@ -116,7 +113,7 @@
 		//HTMLBBDD();
 		echo "<p>Gestion BBDD</p>";
 	}else
-		echo "<p>Ver incidencia</p>";
+		HTMLVER();
 	echo "</main>";
 			HTMLlateral($tipo,$email,$clave);
 	echo "</div>";

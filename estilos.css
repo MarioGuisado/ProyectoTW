@@ -9,6 +9,42 @@ header{
 	padding-bottom: 3%;
 }
 
+.nuevaincidencia, .incidencia,.nuevoUsuario{
+	background-color: rgb(220,174,165);
+}
+
+.incidencia{
+	margin: 5px;
+	margin-bottom: 20px;
+	padding: 10px;
+	border-width: 2px;
+	border-color: brown;
+	border-style: solid;
+	display: flex;
+	align-items: flex-end;
+	flex-wrap: wrap;
+}
+.incidencia p:first-child{
+	width: 100%;
+	border-width: 0px 0px 3px 0px;
+	border-style: dotted;
+	border-color: brown;
+}
+.incidencia p{
+	display: flex;
+	margin: 10px 20px 10px 5px;
+}
+.incidencia label{
+	color: brown;
+}
+
+.nuevaincidencia legend{
+	padding: 10px;
+	background-color:#c580d0;
+	border-block-width: 2px;
+	border-radius: 10px;
+}
+
 .correcto{
 	font-size: 22px;
 	width: auto;
@@ -103,7 +139,7 @@ main{
 	width: 60%;
 	margin-left: 15px;
 }
-main > h2{
+main h2{
 	padding: 2px;
 	border-width: 0px 0px 2px 0px;
 	border-color: brown;
@@ -162,6 +198,7 @@ aside{
 	margin-right: 10px;
 	border-width: 0px;
 	max-width: 30%;
+	width: auto;
 }
 .ListarUsuario form{
 	display: flex;
@@ -175,7 +212,7 @@ aside{
 
 .ListarUsuario div{
 	border-width: 0px 1px 0px 1px;
-	padding: 5px;
+	padding: 15px;
 	border-color: brown;
 	border-style: solid;
 	width: 65%

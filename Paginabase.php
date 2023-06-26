@@ -35,7 +35,7 @@ function HTMLnav($x){
 	echo <<< HTML
 	<nav class="navegar">
 		<ul>
-			<li><a href="./index.php?p=inicio">Ver incidencias</a></li>
+			<li><a href="./index.php">Ver incidencias</a></li>
 	HTML;
 	if(isset($x)){
 		echo <<< HTML
