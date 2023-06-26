@@ -18,7 +18,7 @@
 		echo <<< HTML
 		<h2>Nueva incidencia</h2>
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-			<fieldset>
+			<fieldset class="incidencia">
 				<legend>Datos principales: </legend>
 				<p>
 					<label>Titulo de la incidencia:
@@ -67,26 +67,28 @@
 		echo <<< HTML
 		<h2>Estado de la incidencia</h2>
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-			<input type="radio" name="radioGroup" value="Pendiente" $habilitar checked>
-			<label for="radio1">Pendiente</label>
-		  
-			<input type="radio" name="radioGroup" $habilitar value="Comprobada">
-			<label for="radio1">Comprobada</label>
-		  
-			<input type="radio" name="radioGroup" $habilitar value="Tramitada">
-			<label for="radio2">Tramitada</label>
-		  
-			<input type="radio" name="radioGroup" $habilitar value="Irresoluble">
-			<label for="radio3">Irresoluble</label>
-		  
-			<input type="radio" name="radioGroup" $habilitar value="Resuelta">
-			<label for="radio4">Resuelta</label>
-		  
-			<input type="submit" value="EnviarEstado" $habilitar>
+			<fieldset class="incidencia">
+				<input type="radio" name="radioGroup" value="Pendiente" $habilitar checked>
+				<label for="radio1">Pendiente</label>
+			  
+				<input type="radio" name="radioGroup" $habilitar value="Comprobada">
+				<label for="radio1">Comprobada</label>
+			  
+				<input type="radio" name="radioGroup" $habilitar value="Tramitada">
+				<label for="radio2">Tramitada</label>
+			  
+				<input type="radio" name="radioGroup" $habilitar value="Irresoluble">
+				<label for="radio3">Irresoluble</label>
+			  
+				<input type="radio" name="radioGroup" $habilitar value="Resuelta">
+				<label for="radio4">Resuelta</label>
+			  
+				<input type="submit" value="EnviarEstado" $habilitar>
+			</fieldset>
 		</form>
 		<h2>Nueva incidencia</h2>
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-			<fieldset>
+			<fieldset class="incidencia">
 				<legend>Datos principales: </legend>
 				<p>
 					<label>Titulo de la incidencia:
@@ -114,7 +116,7 @@
 			</fieldset>
 			</form>
 			<h2> Fotografías Adjuntas </h2>
-			<form  action="./index.php" method="POST" enctype="multipart/form-data">
+			<form  action="./index.php" method="POST" enctype="multipart/form-data" class="fotos">
 			 	<img src="" alt="Imagen"><input type="file" name="nuevaImg"/>
 			  	<input type="submit" name='EnviarFotos' value='EnviarFotos' />
 			</form>	
@@ -125,7 +127,7 @@
 		<h2>Criterios de búsqueda:</h2>
 		<h3>Ordenar por:</h3>
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
-			<div>
+			<div class="busqueda">
 			<input type="radio" name="radioGroup" value="Antiguedad" checked>Antiguedad
 		  
 			<input type="radio" name="radioGroup"  value="Positivos">Número de positivos
@@ -235,7 +237,7 @@
 		echo <<< HTML
 		<form action="./index.php" method="POST" enctype="multipart/form-data">
 			<h2>Edición de usuario</h2>
-			<div>
+			<fieldset class="editarUsuario">
 				<p>
 					<label>Fotografía:  <img src="$src" alt="Imagen"><input type="file" name="nuevaImg" $seleccionado /></label>
 				</p>
@@ -307,7 +309,7 @@
 		}else{
 			echo "<input type='submit' name='Modificacion' value='Modificar usuario'/>";
 		}
-		echo "</div>";
+		echo "</fieldset>";
 		echo "</form>";
 	}
 
@@ -316,34 +318,35 @@
 		echo <<< HTML
 		<h2>Nuevo usuario</h2>
 		<form method="post" action="$url">
-		<p>
-			<label>Fotografía: <input type="file" name="Img"/></label>
-		</p>
-		<p>
-			<label>Nombre:
-				<input type="text" name="nombre"/>
-			</label>
-		</p>
-		<p>
-			<label>Apellidos:</label>
-				<input type="text" name="apellido"/>
-			</label>
-		</p>
-		<p>
-			<label>Email:
-				<input type="text" name="correo"/>
-			</label>
-		</p>
-		<p>
-			<label>Clave:
-				<input type="text" name="clave1"  />
-				<input type="text" name="clave2"  />
-			</label>
-		</p>
-		<p>
-			<label>Dirección:
-				<input type="text" name="Residencia" />
-			</label>
+		<fieldset class="nuevoUsuario">
+			<p>
+				<label>Fotografía: <input type="file" name="Img"/></label>
+			</p>
+			<p>
+				<label>Nombre:
+					<input type="text" name="nombre"/>
+				</label>
+			</p>
+			<p>
+				<label>Apellidos:</label>
+					<input type="text" name="apellido"/>
+				</label>
+			</p>
+			<p>
+				<label>Email:
+					<input type="text" name="correo"/>
+				</label>
+			</p>
+			<p>
+				<label>Clave:
+					<input type="text" name="clave1"  />
+					<input type="text" name="clave2"  />
+				</label>
+			</p>
+			<p>
+				<label>Dirección:
+					<input type="text" name="Residencia" />
+				</label>
 			</p>
 			<p>
 				<label>Teléfono:
@@ -368,7 +371,7 @@
 			</p>
 			<input type="hidden" id="9.11">
 			<input type='submit' name='NuevoUsuario' value='Crear usuario'/>
-			</div>
+			</fieldset>
 			</form>
 
 		HTML;

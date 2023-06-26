@@ -90,17 +90,15 @@ function logeo(){
 		$src = "data:$tipoContenido;base64,$imagenBase64";
 			
 		echo <<<HTML
-		    <p>$nombre $apellidos</p>
-		    <p>$tipo<p>
-		    <img src="$src" alt="Imagen">
-		    <form action="./index.php" method="POST">
-		     	<p></p>
-		        <button type="submit" name="logout">Logout</button>
-		    </form>
-		    <form action="./index.php" method="POST">
-		     	<p></p>
-		        <button type="submit" name="editar">Editar</button>
-		    </form>
+			<div class="ponerusuario">
+			    <p>$nombre $apellidos</p>
+			    <p>$tipo</p>
+			    <img src="$src" alt="Imagen">
+			    <form action="./index.php" method="POST">
+			        <button type="submit" name="logout">Logout</button>
+			        <button type="submit" name="editar">Editar</button>
+			    </form>
+			</div>
 		HTML;
 	}
 	else{
