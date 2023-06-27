@@ -62,8 +62,7 @@ function HTMLfooter(){
 		<div>
 			<ul>
 				<li>© 2023 Lucía Ansino Ariza y Mario Guisado García</li>
-				<li><a href="">Protección de datos</a></li>
-				<li><a href="">Fuentes Web</a></li>
+				<li><a href="./TW.pdf">Documentación</a></li>
 				<li><a href="">Aviso legal</a></li>
 				<li><a href="">Políticas de cookies</a></li>
 			</ul>

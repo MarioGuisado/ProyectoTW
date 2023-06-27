@@ -47,8 +47,8 @@ function HTMLUSER(){
 function HTMLBBDD(){
 	echo <<< HTML
 		<h2>Copia de seguridad de la BBDD</h2>
-		<form method="post" action="./index.php?p=usuarios" class="gestion">
-			<input type='submit' name='download' value='Obtener copa de seguridad'/>
+		<form method="post" action="./seguridad.php" class="gestion">
+			<input type='submit' name='download' value='Obtener copia de seguridad'/>
 		</form>
 	HTML;
 }
