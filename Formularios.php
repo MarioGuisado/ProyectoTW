@@ -44,9 +44,9 @@
 			<input type="hidden" id="9.11">
 		HTML;
 		if($x){
-			echo "<input type='submit' name='ConfirmarInsercion' value='ConfirmarInsercion'/>";
+			echo "<input type='submit' name='ConfirmarInsercion' value='Confirmar insercion'/>";
 		}else{
-			echo "<input type='submit' name='EnviarDatos' value='EnviarDatos'/>";
+			echo "<input type='submit' name='EnviarDatos' value='Enviar datos'/>";
 		}
 		echo "</fieldset>";
 		echo "</form>";
@@ -180,15 +180,16 @@
 
 	function EditarUsuario($x,$yo){
 		$url = $_SERVER['SCRIPT_NAME'];
+		$correcto = true;
 		if($x){
 			$seleccionado = "readonly";
 			$habilitar = "disabled";
-			$foto = isset($_POST['nuevaImg'])? $_POST['nuevaImg']:NULL;
-			$nombre = $_POST['nuevoNombre'];
-			$apellidos = $_POST['nuevoApellido'];
-			$email = $_POST['nuevoCorreo'];
-			$dir = $_POST['nuevaResidencia'];
-			$tlfn = $_POST['nuevoTlf'];
+			$foto = isset($_FILES['nuevaImg']['name'])? $_FILES['nuevaImg']['name']:$_POST['tipoImg'];
+			$nombre = isset($_POST['nuevoNombre']) && !empty($_POST['nuevoNombre']) && is_string($_POST['nuevoNombre']) ? $_POST['nuevoNombre'] : NULL;
+			$apellidos = isset($_POST['nuevoApellido']) && !empty($_POST['nuevoApellido']) && is_string($_POST['nuevoApellido']) ? $_POST['nuevoApellido'] : NULL;
+			$email = isset($_POST['nuevoCorreo']) && filter_var($_POST['nuevoCorreo'],FILTER_VALIDATE_EMAIL) && !empty($_POST['nuevoCorreo'])? $_POST['nuevoCorreo'] : NULL;;
+			$dir = isset($_POST['nuevaResidencia']) ? $_POST['nuevaResidencia'] : NULL;
+			$tlfn = isset($_POST['nuevoTlf']) && preg_match('/(\(\+[0-9]{2}\))?\s*[0-9]{3}\s*[0-9]{6}/',$_POST['nuevoTlf'])? $_POST['nuevoTlf'] : NULL ;
 			$estado = isset($_POST['estado']) ?  $_POST['estado'] : $_POST['tipoEstado'];
 			$rol =isset($_POST['rol']) ? $_POST['rol'] :$_POST['tipoRol'];
 		}else{
@@ -230,8 +231,7 @@
 			}
 		}
 		$tipoContenido = "image/png";
-		$imagenBase64 = base64_encode($foto);
-		$src = "data:$tipoContenido;base64,$imagenBase64";
+		$src = "data:$tipoContenido;base64,$foto";
 
 		echo <<< HTML
 		<form action="$url" method="POST" enctype="multipart/form-data">
@@ -242,17 +242,38 @@
 				</p>
 				<p>
 					<label>Nombre:
-						<input type="text" name="nuevoNombre" value="$nombre" $seleccionado/>
+		HTML;
+		if(!is_null($nombre)){
+			echo '<input type="text" name="nuevoNombre" value="'.$nombre.'" '.$seleccionado.'/>';
+		}else{
+			echo '<input type="text" name="nuevoNombre" />';
+			echo $correcto = false;
+		}
+		echo <<< HTML
 					</label>
 				</p>
 				<p>
 					<label>Apellidos:</label>
-						<input type="text" name="nuevoApellido" value="$apellidos" $seleccionado/>
+		HTML;
+		if(!is_null($apellidos)){
+			echo '<input type="text" name="nuevoApellido" value="'.$apellidos.'" '.$seleccionado.'/>';
+		}else{
+			echo '<input type="text" name="nuevoApellido" />';
+			echo $correcto = false;
+		}
+		echo <<< HTML
 					</label>
 				</p>
 				<p>
 					<label>Email:
-						<input type="text" name="nuevoCorreo" value="$email" $seleccionado/>
+		HTML;
+		if(!is_null($email)){
+			echo '<input type="text" name="nuevoCorreo" value="'.$email.'" '.$seleccionado.'/>';
+		}else{
+			echo '<input type="text" name="nuevoCorreo" />';
+			echo $correcto = false;
+		}
+		echo <<< HTML
 					</label>
 				</p>
 		HTML;
@@ -274,6 +295,14 @@
 				</p>
 				<p>
 					<label>Teléfono:
+		HTML;
+		if(!is_null($tlfn)){
+			echo '<input type="text" name="nuevoTlf" value="'.$tlfn.'" '.$seleccionado.'/>';
+		}else{
+			echo '<input type="text" name="nuevoTlf" />';
+			echo $correcto = false;
+		}
+		echo <<< HTML
 						<input type="text" name="nuevoTlf" value="$tlfn" $seleccionado/>
 					</label>
 				</p>
@@ -309,7 +338,8 @@
 		echo "<input type='hidden' name='tipoEditar' value=".$email.">";
 		echo "<input type='hidden' name='tipoRol' value=".$rol.">";
 		echo "<input type='hidden' name='tipoEstado' value=".$estado.">";
-		if($x){			
+		echo "<input type='hidden' name='tipoImg' value=".$foto.">";
+		if($x && $correcto){			
 			echo "<input type='submit' name='confirmarModificacion' value='Confirmar modificación'/>";
 		}else{
 			echo "<input type='submit' name='Modificacion' value='Modificar usuario'/>";
@@ -322,7 +352,7 @@
 		$url = "./index.php?p=usuarios";
 		echo <<< HTML
 		<h2>Nuevo usuario</h2>
-		<form method="post" action="$url">
+		<form method="post" action="$url" enctype="multipart/form-data">
 		<fieldset class="nuevoUsuario">
 			<p>
 				<label>Fotografía: <input type="file" name="Img"/></label>
@@ -375,6 +405,7 @@
 				</label>
 			</p>
 			<input type="hidden" id="9.11">
+			<input type="hidden" name='tipoImg' value="NULL">
 			<input type='submit' name='ConfUser' value='Crear usuario'/>
 			<input type='submit' name='Cancelar' value='Cancelar'/>
 			</fieldset>
@@ -385,19 +416,19 @@
 	function ConfNuevoUsuario(){
 		$url = "./index.php?p=usuarios";
 		$correcto = true;
-		$img = isset($_POST['Img']) ? $_POST['Img']: $_POST['tipoImg'];
+		$img = isset($_FILES['Img']['name']) ? $_FILES['Img']['name']: $_POST['tipoImg'];
 		$nombre = isset($_POST['nombre']) && !empty($_POST['nombre']) && is_string($_POST['nombre']) ? $_POST['nombre']: NULL;
 		$apellido = isset($_POST['apellido']) && !empty($_POST['apellido']) && is_string($_POST['apellido']) ? $_POST['apellido']: NULL;
 		$email=isset($_POST['correo']) && filter_var($_POST['correo'],FILTER_VALIDATE_EMAIL) && !empty($_POST['correo'])? $_POST['correo'] : NULL;
 		$telefono=isset($_POST['Tlf']) && preg_match('/(\(\+[0-9]{2}\))?\s*[0-9]{3}\s*[0-9]{6}/',$_POST['Tlf'])? $_POST['Tlf'] : NULL ;
 		$clave = isset($_POST['clave1']) &&  isset($_POST['clave2']) && !empty($_POST['clave1']) &&  $_POST['clave2']===$_POST['clave1'] ? $_POST['clave1']: null;
-		$direccion = isset($_POST['Residencia']) ? $_POST['Residencia']: null;
+		$direccion = isset($_POST['Residencia']) ? $_POST['Residencia']: NULL;
 		$rol = isset($_POST['rolUser']) ? $_POST['rolUser']: $_POST['tipoRol'];
 		$estado = isset($_POST['estadoUser']) ? $_POST['estadoUser']: $_POST['tipoEstado'];
-
+		echo $img;
 		echo <<< HTML
 		<h2>Nuevo usuario</h2>
-		<form method="post" action="$url">
+		<form method="post" action="$url" enctype="multipart/form-data">
 		<fieldset class="nuevoUsuario">
 			<p>
 		HTML;

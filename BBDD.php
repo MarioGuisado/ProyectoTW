@@ -166,7 +166,7 @@ function ModificarUsuario(){
 		if(mysqli_num_rows($res)>0){
 			while($tupla = $res->fetch_assoc()){
 				$clave1 = isset($_POST['clave1']) ? $_POST['clave1'] : $tupla['passwd'];
-				$foto = isset($_POST['nuevaImg']) ? $_POST['nuevaImg'] : $tupla['foto'];
+				$foto = isset($_POST['tipoImg']) ? $_POST['tipoImg'] : NULL;
 				$nombre = isset($_POST['nuevoNombre']) ? $_POST['nuevoNombre'] : $tupla['nombre'];
 				$apellidos = isset($_POST['nuevoApellido']) ? $_POST['nuevoApellido'] : $tupla['apellidos'];
 				$email_nuevo = isset($_POST['nuevoCorreo']) ? $_POST['nuevoCorreo'] : $tupla['email'];
@@ -175,9 +175,11 @@ function ModificarUsuario(){
 				$estado = isset($_POST['tipoEstado']) ? $_POST['tipoEstado']: $tupla['estado'];
 				$admin = isset($_POST['tipoRol']) ? $_POST['tipoRol']: $tupla['admin'];
 
-				$tipoContenido = "image/png";
-				$imagenBase64 = base64_encode($foto);
-				$src = "data:$tipoContenido;base64,$imagenBase64";
+				if(is_null($foto)){
+					$foto = $tupla['foto'];
+				}else{
+					$foto = base64_encode(file_get_contents($foto));
+				}
 			}
 		}
 	}
@@ -298,6 +300,7 @@ function InsertarUsuario(){
 	$rol = isset($_POST['rolUser']) ? $_POST['rolUser'] : $_POST['tipoRol'];
 	$estado = isset($_POST['estadoUser']) ? $_POST['estadoUser'] : $_POST['tipoEstado'];
 	$foto = isset($_POST['Img']) ? $_POST['Img'] : $_POST['tipoImg'];
+	$foto = base64_encode(file_get_contents($foto));
 
 	if(isset($clave1) && $clave1 == $clave2 && isset($nombre) && isset($apellidos) && isset($rol) && isset($estado)){
 		$clave1 = password_hash($clave1, PASSWORD_DEFAULT);
@@ -634,6 +637,51 @@ function ValorarIncidencia($id_valorado, $valoracion){
 	}
 			
 	desconexion($db);
+}
+
+function IncidenciasP($x){
+	$db = conexion();
+	if($x == 1){
+		$consulta = 'SELECT * FROM INCIDENCIAS WHERE estado="pendiente"';
+	}elseif($x == 2){
+		$consulta = 'SELECT * FROM INCIDENCIAS WHERE estado = "resuelta"';
+	}elseif($x == 3){
+		$consulta = 'SELECT * FROM INCIDENCIAS WHERE estado = "irresoluble"';
+	}elseif($x == 4){
+		$consulta = 'SELECT * FROM INCIDENCIAS WHERE estado = "comprobada"';
+	}elseif($x == 5){
+		$consulta = 'SELECT * FROM INCIDENCIAS WHERE estado = "tramitada"';
+	}
+	$res = $db->query($consulta);
+	if($res){
+		$num = mysqli_num_rows($res);
+	}else{
+		$num = 0;
+	}
+			
+	desconexion($db);
+	return $num;
+}
+
+function RIncidencias(){
+	$db = conexion();
+	$consulta = "SELECT CONCAT(nombre, ' ', apellidos) AS nombre_completo, COUNT(*) AS repeticiones FROM INCIDENCIAS GROUP BY nombre_completo ORDER BY repeticiones DESC LIMIT 3";
+		$res = $db->query($consulta);
+		if($res){
+			if(mysqli_num_rows($res)>0){
+				while($tupla = $res->fetch_assoc()){
+					$user[] = $tupla['nombre_completo'];
+				}
+				$user[] = "No hay nadie mas";
+				$user[] = "No hay nadie mas";
+			}else{
+				return $user = array("No hay nadie","No hay nadie","No hay nadie");
+			}
+		}else {
+			return $user = array("No hay nadie","No hay nadie","No hay nadie");
+		}
+	desconexion($db);
+	return $user;
 }
 
 function DB_backup($db) {

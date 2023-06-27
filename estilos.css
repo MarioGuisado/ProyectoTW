@@ -239,14 +239,22 @@ nav li a{
 .otros{
 	display: flex;
 	flex-direction: column;
-	text-align: center;
+	text-align: left;
 	border-width: 2px 0px 0px 0px;
 	border-color: brown;
 	border-style: dashed;
+	font-size: 17px;
+	padding: 5px;
 }
-.otros >ol{
+.otros li{
+	font-size: 12px;
+}
+.otros *{
 	background-color: rgb(220,174,165);
 	list-style-position: inside;
+}
+.otros ul li{
+	list-style-type: ;
 }
 main{
 	float: left;

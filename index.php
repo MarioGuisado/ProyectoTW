@@ -56,27 +56,19 @@
 
 	echo '<div class="contenido">';
 	echo "<main>";
-	if(isset($_POST['ConfirmarBorrado'])){
-		ConfBorrar();
-	}elseif(isset($_POST['EditarGU'])){
-		EditarUsuario(false,$_POST['usuario']);
-	}elseif (isset($_POST['BorrarGU'])){
-		BorrarUsuario();
-	}elseif(isset($_POST['NuevoUsuario'])){
-		InsertarUsuario();
-	}elseif(isset($_POST['editar'])){
+	
+	if(isset($_POST['editar'])){
 		EditarUsuario(false,$_SESSION['email']);
 	} elseif(isset($_POST['Modificacion'])){
 		EditarUsuario2();
 	} elseif(isset($_POST['confirmarModificacion'])){
 		ModificarUsuario();
 	} elseif(isset($_POST['EnviarDatos'])){
-		HTMLNUEVA(true);
 		$_SESSION['claves']=$_POST['claves'];
 		$_SESSION['lugar']=$_POST['lugar'];
 		$_SESSION['titulo']=$_POST['titulo'];
 		$_SESSION['descripcion']=$_POST['descripcion'];
-		echo "<p>¿Desea confirmar los datos?<p>";
+		HTMLNUEVA(true);
 	} elseif(isset($_POST['ConfirmarInsercion'])){
 		$claves = $_SESSION['claves'];
 		$lugar = $_SESSION['lugar'];
@@ -110,8 +102,7 @@
 	} elseif (isset($_GET['p']) && $_GET['p']=="log") {
 		HTMLLOG();
 	} elseif (isset($_GET['p']) && $_GET['p']=="BBDD") {
-		//HTMLBBDD();
-		echo "<p>Gestion BBDD</p>";
+		HTMLBBDD();
 	}else
 		HTMLVER();
 	echo "</main>";

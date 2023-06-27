@@ -86,7 +86,12 @@ function logeo(){
 		$tipo = $_SESSION['tipo'];
 
 		$tipoContenido = "image/png";
-		$imagenBase64 = base64_encode($foto);
+		$codificado = base64_decode($foto);
+		if($codificado === false){
+			$imagenBase64 = base64_encode($foto);
+		}else{
+			$imagenBase64 = $foto;
+		}
 		$src = "data:$tipoContenido;base64,$imagenBase64";
 			
 		echo <<<HTML
@@ -122,6 +127,12 @@ function infoUsuario($email,$clave){
 }
 
 function HTMLlateral($x,$email,$clave){
+	$pendientes = IncidenciasP(1);
+	$activas = IncidenciasP(2);
+	$irresoluble = IncidenciasP(3);
+	$comprobada = IncidenciasP(4);
+	$tramitada = IncidenciasP(5);
+	$user = RIncidencias();
 	echo <<< HTML
 	<aside>
 	HTML;
@@ -129,17 +140,17 @@ function HTMLlateral($x,$email,$clave){
 	echo <<< HTML
 			<div class = "otros">
 				<ol>Ranking de incidencias
-					<li>User1</li>
-					<li>User2</li>
-					<li>User3</li>
+					<li>$user[0]</li>
+					<li>$user[1]</li>
+					<li>$user[2]</li>
 				</ol>
-				<ol>Ranking de opiniones
-					<li>User1</li>
-					<li>User2</li>
-					<li>User3</li>
-				</ol>
-				<p>Incidencias pendientes: x</p>
-				<p>Incidencias resueltas: x</p>
+				<ul>Incidencias:
+					<li>Pendientes: $pendientes</li>
+					<li>Comprobadas: $comprobada</li>
+					<li>Tramitadas: $tramitada</li>
+					<li>Resueltas: $activas</li>
+					<li>Irresolubles: $irresoluble</li>
+				</ul>
 			</div>
 		</aside>
 	HTML;
