@@ -566,7 +566,7 @@
 
 	function CajaComentarios($id){
 		echo <<< HTML
-		<form method="POST" action="./index.php>
+		<form method="POST" action="./index.php">
 			<input type="text" name="Comentario" placeholder="Escriba un comentario..." required />
 					</label>
 			<input type="hidden" id="9.11">

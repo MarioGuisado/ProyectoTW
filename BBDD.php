@@ -467,6 +467,7 @@ function VerIncidencias($criterio, $pendiente, $comprobada, $tramitada, $irresol
 
 	//Criterio por antiguedad por defecto:
 	$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION, VALORACION FROM INCIDENCIAS ORDER BY FECHA DESC";
+
 	if($criterio == 'Positivos'){
 		$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION, VALORACION FROM INCIDENCIAS ORDER BY VALORACION DESC";
 	}
@@ -560,7 +561,7 @@ function HTMLMISINCIDENCIAS(){
 	}	
 		
 	foreach ($claves as $clave) {
-		$consulta = "SELECT TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION FROM INCIDENCIAS WHERE ID='$clave' ORDER BY FECHA DESC";
+		$consulta = "SELECT ID, TITULO, LUGAR, FECHA, NOMBRE, APELLIDOS, CLAVES, ESTADO, DESCRIPCION, VALORACION FROM INCIDENCIAS WHERE ID='$clave' ORDER BY FECHA DESC";
 		$res = $db->query($consulta);
 		if(!$res) {
 			echo "<p class ='error'>Error en la consulta</p>";
@@ -568,18 +569,64 @@ function HTMLMISINCIDENCIAS(){
 			echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 		}
 		if($res->num_rows > 0){
-			echo "<section class='incidencia'>";
-			while($fila = $res->fetch_assoc()){		
-			    foreach ($fila as $campo => $valor) {
-			    		echo "<p><label>";
-			    		echo "$campo:";
-			    		echo "</label>";
-			    		echo " $valor ";
-			    		echo "</p>";
-			    }	
+			$ultimoID = "";
+			while($fila = $res->fetch_assoc()){
+				echo '<section class="ver">';
+				echo '<div>';			
+				foreach ($fila as $campo => $valor) {
+					   	echo "<p><label>";
+						echo "$campo:";
+						echo "</label>";
+				   		echo " $valor ";
+				   		echo "</p>";
+					   $ultimoID = $fila['ID'];
+				}
+				echo <<< HTML
+					<form method="POST">
+						<input type="submit" name="ValorarPositivamente" value="+">
+						<input type="submit" name="ValorarNegativamente" value="-"/>
+						<input type="hidden" name="incidenciaValorada" value="$ultimoID">
+					</form>
+				HTML;
+				echo "</div>";
+				CajaComentarios($ultimoID);	
+				echo "</section>";	
+
+				$consulta2 = "SELECT IDCOMENTARIO FROM TIENEN WHERE IDINCIDENCIA='$ultimoID'";
+				$res2 = $db->query($consulta2);
+				$claves = array();
+				while($fila = $res2->fetch_assoc()){			
+					$claves[] = $fila['IDCOMENTARIO'];
+				}	
+				foreach ($claves as $clave) {
+						$consulta3 = "SELECT USUARIO, FECHA, DESCRIPCION FROM COMENTARIOS WHERE ID='$clave' ORDER BY FECHA DESC";
+						$res3 = $db->query($consulta3);
+						if(!$res3) {
+							echo "<p class ='error'>Error en la consulta</p>";
+							echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
+							echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
+						}
+						if($res3->num_rows > 0){
+							echo "<div class='caja'>";
+							while($fila = $res3->fetch_assoc()){
+								echo "<div class='comentario'>";	
+							    foreach ($fila as $campo => $valor) {
+							    		echo "<p><label>";
+							    		echo "$campo:";
+							    		echo "</label>";
+							    		echo " $valor ";
+							    		echo "</p>";
+							    }
+							    echo "</div>";
+							}
+							echo "</div>";
+						}
+					}
 			}
-			echo "</section>";
 		}
+		else{
+			 echo "<p>No se encontraron incidencias.</p>";
+		}	
 	}	
 	
 	desconexion($db);
@@ -609,7 +656,7 @@ function IntroducirComentario($comentario, $usuario, $id){
 			echo "<p class ='error'>Mensaje: ".mysqli_error()."</p>";
 		}
 
-		$email = $_SESSION['email'];
+		$email = (isset($_SESSION['email'])) ? $_SESSION['email'] : "Anónimo";
 		$descripcion = "El usuario $email ha añadido un comentario";
 		$consulta = "INSERT INTO LOGS (ID,FECHA,DESCRIPCION) VALUES (NULL,'$fechaActual','$descripcion')";
 		$res = $db->query($consulta);

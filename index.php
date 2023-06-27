@@ -91,6 +91,8 @@
 	elseif(isset($_POST['EnviarComentario'])){
 		$comentario = $_POST['Comentario'];
 		$usuario = $nombre . " " . $apellidos;
+		if($usuario == " ")
+			$usuario = "Anónimo";
 		$idIncidencia = $_POST['ID'];
 		IntroducirComentario($comentario, $usuario, $idIncidencia);
 	} elseif (isset($_GET['p']) && $_GET['p']=="incidencia") {
