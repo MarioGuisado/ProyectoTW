@@ -265,7 +265,7 @@ function HTMLLOG(){
 		echo "<p class ='error'>Código: ".mysqli_errno($db)."</p>";
 		echo "<p class ='error'>Mensaje: ".mysqli_error($db)."</p>";
 	}else{
-		echo "<h2>Log</h2>";
+		echo "<h2>Eventos del sistema</h2>";
 	}
 
 	if ($res->num_rows > 0) {
@@ -295,17 +295,12 @@ function InsertarUsuario(){
 	$email = isset($_POST['correo']) ? $_POST['correo'] : NULL;
 	$direccion = isset($_POST['Residencia']) ? $_POST['Residencia'] : NULL;
 	$tlf = isset($_POST['Tlf']) ? $_POST['Tlf'] : NULL;
-	$rol = isset($_POST['rolUser']) ? $_POST['rolUser'] : NULL;
-	$estado = isset($_POST['estadoUser']) ? $_POST['estadoUser'] : NULL;
-	$foto = isset($_POST['Img']) ? $_POST['Img'] : NULL;
+	$rol = isset($_POST['rolUser']) ? $_POST['rolUser'] : $_POST['tipoRol'];
+	$estado = isset($_POST['estadoUser']) ? $_POST['estadoUser'] : $_POST['tipoEstado'];
+	$foto = isset($_POST['Img']) ? $_POST['Img'] : $_POST['tipoImg'];
 
 	if(isset($clave1) && $clave1 == $clave2 && isset($nombre) && isset($apellidos) && isset($rol) && isset($estado)){
 		$clave1 = password_hash($clave1, PASSWORD_DEFAULT);
-		if($rol == "Administrador"){
-			$rol = 1;
-		}else{
-			$rol = 0;
-		}
 		$db = conexion();
 		$res = mysqli_query($db,"SELECT COUNT(*) FROM USUARIOS WHERE email='$email' or (nombre='$nombre' and apellidos='$apellidos')");
 		$num = mysqli_fetch_row($res)[0];
@@ -416,16 +411,16 @@ function BorrarUsuario(){
 					$src = "data:$tipoContenido;base64,$imagenBase64";
 
 					echo <<< HTML
+					<h2>Confirme borrado de este usuario</h2>
 					<section class ="borrarusuario">
-						<h2>Confirme borrado de este usuario</h2>
 						<div class="img1"><img src="$src" alt="Imagen"></div>
 						<div>
-							<p>Usuario: $nom $ap</p>
-							<p>Email: $email</p>
-							<p>Dirección: $dir</p>
-							<p>Teléfono: $tlf</p>
-							<p>Rol: $rol</p>
-							<p>Estado: $estado</p>
+							<p><label>Usuario:</label> $nom $ap</p>
+							<p><label>Email:</label> $email</p>
+							<p><label>Dirección:</label> $dir</p>
+							<p><label>Teléfono:</label> $tlf</p>
+							<p><label>Rol:</label> $rol</p>
+							<p><label>Estado:</label> $estado</p>
 						</div>
 						<form method="post" action="$url">
 							<input type="hidden" name="id" value="$id">
@@ -639,6 +634,38 @@ function ValorarIncidencia($id_valorado, $valoracion){
 	}
 			
 	desconexion($db);
+}
+
+function DB_backup($db) {
+	$tablas = array();
+	// Obtener listado de tablas
+	$result = mysqli_query($db,'SHOW TABLES');
+	while ($row = mysqli_fetch_row($result))
+		$tablas[] = $row[0];
+	// Salvar cada tabla
+	$salida = '';
+	foreach ($tablas as $tab) {
+		$result = mysqli_query($db,'SELECT * FROM '.$tab);
+		$num = mysqli_num_fields($result);
+		$salida .= 'DROP TABLE IF EXISTS '.$tab.';';
+		$row2 = mysqli_fetch_row(mysqli_query($db,'SHOW CREATE TABLE '.$tab));
+		$salida .= "\n\n".$row2[1].";\n\n";
+		while ($row = mysqli_fetch_row($result)) {
+			$salida .= 'INSERT INTO '.$tab.' VALUES(';
+			for ($j=0; $j < $num; $j++) {
+				if (!is_null($row[$j])) {
+					$row[$j] = addslashes($row[$j]);
+					$row[$j] = preg_replace("/\n/","\\n",$row[$j]);
+					if (isset($row[$j])) $salida .= '"'.$row[$j].'"';
+					else $salida .= '""';
+				} else $salida .= 'NULL';
+				if ($j < ($num-1)) $salida .= ',';
+			}
+			$salida .= ");\n";
+		}
+		$salida .= "\n\n\n";
+	}
+	return $salida;
 }
 
 ?>

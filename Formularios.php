@@ -319,7 +319,7 @@
 	}
 
 	function NuevoUsuario(){
-		$url = $_SERVER['SCRIPT_NAME'];
+		$url = "./index.php?p=usuarios";
 		echo <<< HTML
 		<h2>Nuevo usuario</h2>
 		<form method="post" action="$url">
@@ -361,8 +361,8 @@
 			<p>
 				<label>Rol:
 				<select name="rolUser">
-					<option value='Colaborador'>Colaborador</option>
-					<option value='Administrador'>Administrador</option>
+					<option value='0'>Colaborador</option>
+					<option value='1'>Administrador</option>
 				</select>
 				</label>
 			</p>
@@ -375,7 +375,158 @@
 				</label>
 			</p>
 			<input type="hidden" id="9.11">
-			<input type='submit' name='NuevoUsuario' value='Crear usuario'/>
+			<input type='submit' name='ConfUser' value='Crear usuario'/>
+			<input type='submit' name='Cancelar' value='Cancelar'/>
+			</fieldset>
+			</form>
+
+		HTML;
+	}
+	function ConfNuevoUsuario(){
+		$url = "./index.php?p=usuarios";
+		$correcto = true;
+		$img = isset($_POST['Img']) ? $_POST['Img']: $_POST['tipoImg'];
+		$nombre = isset($_POST['nombre']) && !empty($_POST['nombre']) && is_string($_POST['nombre']) ? $_POST['nombre']: NULL;
+		$apellido = isset($_POST['apellido']) && !empty($_POST['apellido']) && is_string($_POST['apellido']) ? $_POST['apellido']: NULL;
+		$email=isset($_POST['correo']) && filter_var($_POST['correo'],FILTER_VALIDATE_EMAIL) && !empty($_POST['correo'])? $_POST['correo'] : NULL;
+		$telefono=isset($_POST['Tlf']) && preg_match('/(\(\+[0-9]{2}\))?\s*[0-9]{3}\s*[0-9]{6}/',$_POST['Tlf'])? $_POST['Tlf'] : NULL ;
+		$clave = isset($_POST['clave1']) &&  isset($_POST['clave2']) && !empty($_POST['clave1']) &&  $_POST['clave2']===$_POST['clave1'] ? $_POST['clave1']: null;
+		$direccion = isset($_POST['Residencia']) ? $_POST['Residencia']: null;
+		$rol = isset($_POST['rolUser']) ? $_POST['rolUser']: $_POST['tipoRol'];
+		$estado = isset($_POST['estadoUser']) ? $_POST['estadoUser']: $_POST['tipoEstado'];
+
+		echo <<< HTML
+		<h2>Nuevo usuario</h2>
+		<form method="post" action="$url">
+		<fieldset class="nuevoUsuario">
+			<p>
+		HTML;
+		if(!is_null($img)){
+			echo "<label>Fotografía: <img src='".$img."' alt='Imagen'></label>";
+		}else{
+			echo '<label>Fotografía: <input type="file" name="Img" value="Hola" disabled/></label>';
+		}
+		echo <<< HTML
+			</p>
+			<p>
+				<label>Nombre:
+					<input type="text" name="nombre" 
+		HTML;
+		if(!is_null($nombre)){
+			echo 'value="'.$nombre.'" readonly/>';
+		}else{
+			echo 'placeholder="Error: campo incorrecto"/>';
+			$correcto = false;
+		}
+		echo <<< HTML
+				</label>
+			</p>
+			<p>
+				<label>Apellidos:</label>
+					<input type="text" name="apellido" 
+		HTML;
+		if(!is_null($apellido)){
+			echo 'value="'.$apellido.'" readonly/>';
+		}else{
+			echo 'placeholder="Error: campo incorrecto"/>';
+			$correcto = false;
+		}
+		echo <<< HTML
+				</label>
+			</p>
+			<p>
+				<label>Email:
+					<input type="text" name="correo" 
+		HTML;
+		if(!is_null($email)){
+			echo 'value="'.$email.'" readonly/>';
+		}else{
+			echo 'placeholder="Error: campo incorrecto"/>';
+			$correcto = false;
+		}
+		echo <<< HTML
+				</label>
+			</p>
+			<p>
+				<label>Clave:
+					<input type="text" name="clave1"
+		HTML;
+		if(!is_null($clave)){
+			echo 'value="'.$clave.'" readonly/>';
+		}else{
+			echo 'placeholder="Error: campo incorrecto"/>';
+			$correcto = false;
+		}
+		echo <<< HTML
+					<input type="text" name="clave2"
+		HTML;
+		if(!is_null($clave)){
+			echo 'value="'.$clave.'" readonly/>';
+		}else{
+			echo 'placeholder="Error: campo incorrecto"/>';
+			$correcto = false;
+		}
+		echo <<< HTML
+				</label>
+			</p>
+			<p>
+				<label>Dirección:
+					<input type="text" name="Residencia" value="$direccion" readonly />
+				</label>
+			</p>
+			<p>
+				<label>Teléfono:
+					<input type="text" name="Tlf"
+		HTML;
+		if(!is_null($telefono)){
+			echo 'value="'.$telefono.'" readonly/>';
+		}else{
+			echo 'placeholder="Error: campo incorrecto"/>';
+			$correcto = false;
+		}
+		echo <<< HTML
+				</label>
+			</p>
+			<p>
+				<label>Rol:
+				<select name="rolUser" disabled>
+					<option value='1'
+		HTML;
+				RolSelccionado("1",$rol);
+				echo " >Administrador</option>";
+				echo "<option value='0' ";
+				RolSelccionado("0",$rol);
+				echo ">Colaborador</option>";
+		echo <<< HTML
+				</select>
+				</label>
+			</p>
+			<p>
+				<label>Estado:
+				<select name="estadoUser" disabled>
+		HTML;
+			echo "<option value='Activo' ";
+			EstadoSelccionado("Activo",$estado);
+			echo ">Activo</option>";
+			echo "<option value='Inactivo' ";
+			EstadoSelccionado("Inactivo",$estado);
+			echo ">Inactivo</option>";
+		echo <<< HTML
+				</select>
+				</label>
+			</p>
+			<input type="hidden" id="9.11">
+		HTML;
+		echo "<input type='hidden' name='tipoRol' value=".$rol.">";
+		echo "<input type='hidden' name='tipoEstado' value=".$estado.">";
+		echo "<input type='hidden' name='tipoImg' value=".$img.">";
+		if($correcto){
+			echo "<input type='submit' name='MeterUsuario' value='Confirmar'/>";
+		}else{
+			echo "<input type='submit' name='ConfUser' value='Crear usuario'/>";
+		}
+		echo <<< HTML
+			<input type='submit' name='Cancelar' value='Cancelar'/>
 			</fieldset>
 			</form>
 
@@ -384,7 +535,7 @@
 
 	function CajaComentarios($id){
 		echo <<< HTML
-		<form method="POST" action="./index.php">
+		<form method="POST" action="./index.php>
 			<input type="text" name="Comentario" placeholder="Escriba un comentario..." required />
 					</label>
 			<input type="hidden" id="9.11">

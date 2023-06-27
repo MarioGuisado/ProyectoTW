@@ -27,7 +27,11 @@ function HTMLUSER(){
 		echo "<section>";
 		BorrarUsuario();
 		echo "</section>";
-	}elseif(isset($_POST['NuevoUsuario'])){
+	}elseif(isset($_POST['ConfUser'])){
+		echo "<section>";
+		ConfNuevoUsuario();
+		echo "</section>";
+	}elseif(isset($_POST['MeterUsuario'])){
 		echo "<section>";
 		InsertarUsuario();
 		echo "</section>";
@@ -38,6 +42,15 @@ function HTMLUSER(){
 	} elseif(isset($_POST['confirmarModificacion'])){
 		ModificarUsuario();
 	}
+}
+
+function HTMLBBDD(){
+	echo <<< HTML
+		<h2>Copia de seguridad de la BBDD</h2>
+		<form method="post" action="./index.php?p=usuarios" class="gestion">
+			<input type='submit' name='download' value='Obtener copa de seguridad'/>
+		</form>
+	HTML;
 }
 
 ?>
